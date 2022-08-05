@@ -1,10 +1,17 @@
 .number-row {
     border: 1px solid black;
+    width: 80%;
     max-width: 25rem;
     margin: 1rem auto 0;
     display: flex;
+    padding: 0.3rem;
 }
 
-/* .number-row p {
-    display: inline-block;
-} */
+.number-row > * {
+    margin-right: 1rem;
+}
+
+.multiplier-box {
+    display: flex;
+    flex-wrap: wrap;
+}

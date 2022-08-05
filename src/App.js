@@ -16,10 +16,9 @@ function App() {
 	return (
 		<div className="App">
 			<Header />
-			<h2>Turn: {state.currentPlayer1 ? 'Player 1' : 'Player 2'}</h2>
 			<Grid appState={state} setAppState={setState}/>
 			<NumberSelection appState={state} setAppState={setState}/>
-			<button type="button">Confirm</button>
+			<button className="confirm" type="button">Confirm</button>
 		</div>
   	);
 }

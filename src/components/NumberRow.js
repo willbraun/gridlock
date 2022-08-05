@@ -8,7 +8,9 @@ const NumberRow = ({number, multipliers}) => {
         <div className="number-row">
             <Number value={number}/>
             <p>x</p>
-            {multipliersList}
+            <div className="multiplier-box">
+                {multipliersList}
+            </div>
         </div>
     )
 }

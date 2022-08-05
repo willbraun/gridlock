@@ -1,9 +1,10 @@
 .number {
-    height: 2rem;
-    width: 2rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
     border-radius: 50%;
     background-color: #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0.2rem;
 }
