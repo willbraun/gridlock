@@ -1,0 +1,10 @@
+.number-row {
+    border: 1px solid black;
+    max-width: 25rem;
+    margin: 1rem auto 0;
+    display: flex;
+}
+
+/* .number-row p {
+    display: inline-block;
+} */
