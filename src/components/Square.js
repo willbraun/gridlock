@@ -1,8 +1,8 @@
 import './../styles/square.css';
 
-const Square = ({number}) => {
+const Square = ({number, type}) => {
     return (
-        <div className="square">
+        <div className={`square ${type}`}>
             <p>{number}</p>
         </div>
     )

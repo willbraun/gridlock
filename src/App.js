@@ -7,8 +7,8 @@ import NumberSelection from './components/NumberSelection';
 function App() {
 	const [state, setState] = useState({
 		currentPlayer1: true,
-		p1squares: [1, 7, 49, 63],
-        p2squares: [],
+		p1Squares: [1, 7, 49, 63],
+        p2Squares: [3, 4, 24, 48],
 		num1: 7,
 		num2: 3,
 	})

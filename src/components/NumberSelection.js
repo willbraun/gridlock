@@ -4,7 +4,7 @@ import { numbers } from './../data';
 const NumberSelection = ({appState, setAppState}) => {
 
     const getAvailableSqaures = () => {
-        const taken = [...appState.p1squares, ...appState.p2squares];
+        const taken = [...appState.p1Squares, ...appState.p2Squares];
         let result = [...numbers];
 
         taken.forEach(num => {
