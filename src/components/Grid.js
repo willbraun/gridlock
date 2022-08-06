@@ -5,7 +5,7 @@ import './../styles/grid.css';
 
 const Grid = ({appState, setAppState}) => {
     const [state, setState] = useState({
-        selected: null,
+        selected: 6,
     })
 
     const getSquareType = number => {
@@ -21,12 +21,11 @@ const Grid = ({appState, setAppState}) => {
         // get possible squares and return optionSquare
         // move functions in numberselection up to app, add function for getting option squares, and pass to grid
         else {
-            return 'notOptionSquare'
+            return 'notOptionSquare';
         }
     }
 
     const squares = numbers.map(num => <Square key={num} number={num} type={getSquareType(num)}/>)
-    // include color in the map function, pass color as prop to square component, css styling on color
 
     return (
         <div className="grid">

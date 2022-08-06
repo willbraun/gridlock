@@ -7,3 +7,23 @@
     border: 1px solid #ccc;
     font-size: 2rem;
 }
+
+.p1Square {
+    background-color: rgb(255, 116, 116);
+}
+
+.p2Square {
+    background-color: rgb(145, 181, 255);
+}
+
+.selectedSquare {
+    background-color: rgb(0, 161, 0);
+}
+
+.optionSquare {
+    background-color: rgb(255, 255, 0);
+}
+
+.notOptionSquare {
+    background-color: #eee;
+}
