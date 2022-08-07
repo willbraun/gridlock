@@ -3,7 +3,7 @@ import { numbers } from './../data';
 import Square from "./Square";
 import './../styles/grid.css';
 
-const Grid = ({appState, setAppState}) => {
+const Grid = ({appState, setAppState, options}) => {
     const [state, setState] = useState({
         selected: 6,
     })
@@ -18,8 +18,9 @@ const Grid = ({appState, setAppState}) => {
         else if (state.selected === number) {
             return 'selectedSquare';
         }
-        // get possible squares and return optionSquare
-        // move functions in numberselection up to app, add function for getting option squares, and pass to grid
+        else if (options.includes(number)) {
+            return 'optionSquare';
+        }
         else {
             return 'notOptionSquare';
         }
