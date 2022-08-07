@@ -12,6 +12,7 @@ function App() {
         p2Squares: [3, 4, 24, 48],
 		num1: 7,
 		num2: 3,
+		selected: 6,
 	})
 
 	const getAvailableSqaures = () => {
@@ -48,7 +49,6 @@ function App() {
 			<Header />
 			<Grid appState={state} setAppState={setState} options={options}/>
 			<NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/>
-			<button className="confirm" type="button">Confirm</button>
 		</div>
   	);
 }

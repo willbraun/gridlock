@@ -1,10 +1,11 @@
 import './../styles/number.css';
 
-const Number = ({value}) => {
+const Number = ({value, selectMultiplier, selected}) => {
+    
     return (
-        <div className="number">
+        <button className={`number${selected ? ' selected' : ''}`} type="button" onClick={() => selectMultiplier(value)}>
             <p>{value}</p>
-        </div>
+        </button>
     )
 }
 

@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import { numbers } from './../data';
 import Square from "./Square";
 import './../styles/grid.css';
 
 const Grid = ({appState, setAppState, options}) => {
-    const [state, setState] = useState({
-        selected: 6,
-    })
 
     const getSquareType = number => {
         if (appState.p1Squares.includes(number)) {
@@ -15,7 +11,7 @@ const Grid = ({appState, setAppState, options}) => {
         else if (appState.p2Squares.includes(number)) {
             return 'p2Square';
         }
-        else if (state.selected === number) {
+        else if (appState.selected === number) {
             return 'selectedSquare';
         }
         else if (options.includes(number)) {

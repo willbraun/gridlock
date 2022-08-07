@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     border: 1px solid #ccc;
-    font-size: 2rem;
+    font-size: 1.75rem;
 }
 
 .p1Square {
@@ -21,7 +21,7 @@
 }
 
 .optionSquare {
-    background-color: rgb(255, 255, 0);
+    background-color: rgb(255, 255, 161);
 }
 
 .notOptionSquare {
