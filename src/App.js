@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
 import NumberSelection from './components/NumberSelection';
+import NumberCircle from './components/Number';
 import { numbers } from './data';
 
 function App() {
@@ -10,9 +11,13 @@ function App() {
 		currentPlayer1: true,
 		p1Squares: [1, 7, 49, 63],
         p2Squares: [3, 4, 24, 48],
-		num1: 7,
+		num1: 2,
 		num2: 3,
 		selected: 6,
+		selectedRow: null,
+        selectedMultiplier: null,
+		selectedRow2: null,
+		selectedMultiplier2: null,
 	})
 
 	const getAvailableSqaures = () => {
@@ -43,12 +48,35 @@ function App() {
 	}
 
 	const options = getOptionSquares();
+
+	const selectSquare = squareNum => {
+		const multiplier1 = squareNum/state.num1;
+		const multiplier2 = squareNum/state.num2;
+
+		if (Number.isInteger(multiplier1) && Number.isInteger(multiplier2)) {
+			setState({...state, selected: squareNum, selectedRow: state.num1, selectedMultiplier: multiplier1, selectedRow2: state.num2, selectedMultiplier2: multiplier2});
+		}
+		else if (Number.isInteger(multiplier1)) {
+			setState({...state, selected: squareNum, selectedRow: state.num1, selectedMultiplier: multiplier1, selectedRow2: null, selectedMultiplier2: null});
+		}
+		else {
+			setState({...state, selected: squareNum, selectedRow: state.num2, selectedMultiplier: multiplier2, selectedRow2: null, selectedMultiplier2: null});
+		}
+	}
+
+	const bothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
   	 
 	return (
 		<div className="App">
 			<Header />
-			<Grid appState={state} setAppState={setState} options={options}/>
+			<Grid appState={state} setAppState={setState} options={options} selectSquare={selectSquare}/>
 			<NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/>
+			{bothRows 
+				? <button className="confirm disabled" type="button" disabled={true}>
+					Select <div className="confirm-select-circle">{state.selectedMultiplier}</div> or <div className="confirm-select-circle">{state.selectedMultiplier2}</div>
+				</button>
+				: <button className="confirm" type="button" disabled={false}>Confirm</button>
+			}
 		</div>
   	);
 }

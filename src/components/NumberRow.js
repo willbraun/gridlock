@@ -1,21 +1,44 @@
-import { useState } from "react";
-import Number from "./Number";
+import NumberCircle from "./Number";
 import './../styles/numberrow.css';
 
-const NumberRow = ({appState, setAppState, selectState, setSelectState, number, multipliers}) => {
+const NumberRow = ({appState, setAppState, number, multipliers}) => {
     
     const selectMultiplier = multiplier => {
-        setSelectState({...selectState, selectedRow: number, selectedMultiplier: multiplier})
-        setAppState({...appState, selected: number * multiplier})
+        setAppState({...appState, selected: number * multiplier, selectedRow: number, selectedMultiplier: multiplier, selectedRow2: null, selectedMultiplier2: null})
     }
 
-    const isThisRow = selectState.selectedRow === number;
+    const bothRows = !!appState.selectedMultiplier && !!appState.selectedMultiplier2;
+
+    const isSelectedRow = () => {
+        if (bothRows) {
+            return 2;
+        }
+        else if (!bothRows && appState.selectedRow === number) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    const isSelectedMultiplier = multiplier => {
+        if (bothRows && appState.selected === number * multiplier) {
+            return 2;
+        }
+        else if (appState.selected === number * multiplier && appState.selectedMultiplier === multiplier) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
     
-    const multipliersList = multipliers.map(mult => <Number key={mult} value={mult} selectMultiplier={selectMultiplier} selected={isThisRow && selectState.selectedMultiplier === mult}/>)
+    const multipliersList = multipliers.map(mult => <NumberCircle key={mult} value={mult} selectMultiplier={selectMultiplier} selected={isSelectedMultiplier(mult)} disabled={false}/>)
 
     return (
         <div className="number-row">
-            <Number value={number} selected={isThisRow}/>
+            <NumberCircle value={number} selected={isSelectedRow()} disabled={true}/>
             <p>x</p>
             <div className="multiplier-box">
                 {multipliersList}

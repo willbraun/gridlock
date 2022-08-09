@@ -4,6 +4,7 @@
     border: none;
     border-radius: 50%;
     background-color: #ccc;
+    color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,5 +13,9 @@
 }
 
 .number.selected {
-    background-color: rgb(0, 161, 0);
+    background-color: var(--green)
+}
+
+.number.half-selected {
+    background-color: rgb(148, 220, 148);
 }

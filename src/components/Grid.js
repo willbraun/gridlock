@@ -2,7 +2,7 @@ import { numbers } from './../data';
 import Square from "./Square";
 import './../styles/grid.css';
 
-const Grid = ({appState, setAppState, options}) => {
+const Grid = ({appState, setAppState, options, selectSquare}) => {
 
     const getSquareType = number => {
         if (appState.p1Squares.includes(number)) {
@@ -22,7 +22,7 @@ const Grid = ({appState, setAppState, options}) => {
         }
     }
 
-    const squares = numbers.map(num => <Square key={num} number={num} type={getSquareType(num)}/>)
+    const squares = numbers.map(num => <Square key={num} number={num} type={getSquareType(num)} selectSquare={selectSquare}/>)
 
     return (
         <div className="grid">

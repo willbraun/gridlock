@@ -2,7 +2,7 @@
     border: 1px solid black;
     width: 80%;
     max-width: 25rem;
-    margin: 1rem auto 0;
+    margin: 0.25rem auto;
     display: flex;
     padding: 0.3rem;
 }
@@ -14,4 +14,5 @@
 .multiplier-box {
     display: flex;
     flex-wrap: wrap;
+    margin: 0;
 }

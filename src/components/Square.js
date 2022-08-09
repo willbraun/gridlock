@@ -1,10 +1,14 @@
 import './../styles/square.css';
 
-const Square = ({number, type}) => {
+const Square = ({number, type, selectSquare}) => {
     return (
-        <div className={`square ${type}`}>
-            <p>{number}</p>
-        </div>
+        <button 
+            className={`square ${type}`} 
+            type="button" 
+            onClick={() => selectSquare(number)}
+            disabled={type !== 'optionSquare'}>
+                <p>{number}</p>
+        </button>
     )
 }
 
