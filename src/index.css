@@ -1,6 +1,7 @@
 :root {
 	--green: rgb(8, 178, 8);
 	--light-green: rgb(148, 220, 148);
+	--yellow: rgb(255, 255, 161);
 }
 
 body {

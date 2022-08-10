@@ -10,11 +10,11 @@ import { numbers } from './data';
 function App() {
 	const [state, setState] = useState({
 		currentPlayer1: true,
-		p1Squares: [1, 7, 49, 63],
-        p2Squares: [3, 4, 24, 48],
+		p1Squares: [3, 6, 18, 42, 63, 16],
+        p2Squares: [2, 20, 35, 72, 81, 64],
 		num1: 2,
-		num2: 3,
-		selected: 6,
+		num2: 8,
+		selected: null,
 		selectedRow: null,
         selectedMultiplier: null,
 		selectedRow2: null,

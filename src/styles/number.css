@@ -1,21 +1,28 @@
 .number {
     height: 5vh;
     min-width: 5vh;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 50%;
-    background-color: #ccc;
+    background-color: var(--yellow);
     color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.2rem;
+    margin: 0.1rem;
     font-size: 3vh;
+}
+
+.number:disabled {
+    background-color: #ccc;
+    border: none;
 }
 
 .number.selected {
     background-color: var(--green);
+    border: none;
 }
 
 .number.half-selected {
     background-color: var(--light-green);
+    border: none;
 }

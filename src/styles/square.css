@@ -21,7 +21,7 @@
 }
 
 .optionSquare {
-    background-color: rgb(255, 255, 161);
+    background-color: var(--yellow);
 }
 
 .notOptionSquare {
