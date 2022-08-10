@@ -1,14 +1,17 @@
 .number-row {
-    border: 1px solid black;
-    width: 80%;
-    max-width: 25rem;
+    /* border: 1px solid #000; */
+    width: 100%;
+    height: fit-content;
     margin: 0.25rem auto;
     display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.3rem;
 }
 
-.number-row > * {
-    margin-right: 1rem;
+.multiplier-x {
+    margin: 0 0.5rem;
+    font-size: 3vh;
 }
 
 .multiplier-box {

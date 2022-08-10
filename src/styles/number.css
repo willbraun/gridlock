@@ -1,6 +1,6 @@
 .number {
-    height: 2.5rem;
-    min-width: 2.5rem;
+    height: 5vh;
+    min-width: 5vh;
     border: none;
     border-radius: 50%;
     background-color: #ccc;
@@ -9,7 +9,7 @@
     justify-content: center;
     align-items: center;
     margin: 0.2rem;
-    font-size: 1.5rem;
+    font-size: 3vh;
 }
 
 .number.selected {

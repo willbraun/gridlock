@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
+import './styles/header.css';
 import NumberSelection from './components/NumberSelection';
 import NumberCircle from './components/Number';
 import { numbers } from './data';
