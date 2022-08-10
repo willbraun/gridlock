@@ -6,6 +6,7 @@
     border: 0.5px solid #ccc;
     font-size: 3vh;
     color: #000;
+    transition: 0.1s;
 }
 
 .p1Square {

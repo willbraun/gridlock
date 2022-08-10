@@ -1,10 +1,10 @@
-import './../styles/number.css';
+import './../styles/numbercircle.css';
 
 const NumberCircle = ({value, selectMultiplier, selected, disabled}) => {
 
     return (
         <button 
-            className={`number${
+            className={`number-circle${
                 selected === 1
                     ? ' selected' 
                     : selected === 2 

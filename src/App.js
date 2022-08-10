@@ -4,7 +4,7 @@ import Grid from './components/Grid';
 import './App.css';
 import './styles/header.css';
 import NumberSelection from './components/NumberSelection';
-import NumberCircle from './components/Number';
+import NumberCircle from './components/NumberCircle';
 import { numbers } from './data';
 
 function App() {

@@ -1,4 +1,4 @@
-import NumberCircle from "./Number";
+import NumberCircle from "./NumberCircle";
 import './../styles/numberrow.css';
 
 const NumberRow = ({appState, setAppState, number, multipliers}) => {

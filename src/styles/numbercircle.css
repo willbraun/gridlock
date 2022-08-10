@@ -1,4 +1,4 @@
-.number {
+.number-circle {
     height: 5vh;
     min-width: 5vh;
     border: 1px solid #ddd;
@@ -10,19 +10,20 @@
     align-items: center;
     margin: 0.1rem;
     font-size: 3vh;
+    transition: 0.05s;
 }
 
-.number:disabled {
+.number-circle:disabled {
     background-color: #ccc;
     border: none;
 }
 
-.number.selected {
+.number-circle.selected {
     background-color: var(--green);
     border: none;
 }
 
-.number.half-selected {
+.number-circle.half-selected {
     background-color: var(--light-green);
     border: none;
 }
