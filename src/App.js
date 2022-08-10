@@ -73,7 +73,10 @@ function App() {
 			<NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/>
 			{bothRows 
 				? <button className="confirm disabled" type="button" disabled={true}>
-					Select <div className="confirm-select-circle">{state.selectedMultiplier}</div> or <div className="confirm-select-circle">{state.selectedMultiplier2}</div>
+					<p>Select</p>
+					<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
+					<p>or</p>
+					<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 				</button>
 				: <button className="confirm" type="button" disabled={false}>Confirm</button>
 			}

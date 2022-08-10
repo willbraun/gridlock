@@ -13,9 +13,9 @@
 }
 
 .number.selected {
-    background-color: var(--green)
+    background-color: var(--green);
 }
 
 .number.half-selected {
-    background-color: rgb(148, 220, 148);
+    background-color: var(--light-green);
 }
