@@ -23,7 +23,7 @@
 	font-size: 4vh;
 }
 
-.confirm.disabled {
+.confirm:disabled {
 	background-color: #eee;
 	color: #666;
 }

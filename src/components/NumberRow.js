@@ -38,7 +38,7 @@ const NumberRow = ({appState, setAppState, number, multipliers}) => {
 
     return (
         <div className="number-row">
-            <NumberCircle value={number} selected={isSelectedRow()} disabled={true}/>
+            <NumberCircle key={number} value={number} selected={isSelectedRow()} disabled={true}/>
             <p className="multiplier-x">x</p>
             <div className="multiplier-box">
                 {multipliersList}

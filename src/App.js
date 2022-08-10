@@ -55,14 +55,53 @@ function App() {
 		const multiplier2 = squareNum/state.num2;
 
 		if (Number.isInteger(multiplier1) && Number.isInteger(multiplier2)) {
-			setState({...state, selected: squareNum, selectedRow: state.num1, selectedMultiplier: multiplier1, selectedRow2: state.num2, selectedMultiplier2: multiplier2});
+			setState({
+				...state, 
+				selected: squareNum, 
+				selectedRow: state.num1, 
+				selectedMultiplier: multiplier1, 
+				selectedRow2: state.num2, 
+				selectedMultiplier2: multiplier2,
+			});
 		}
 		else if (Number.isInteger(multiplier1)) {
-			setState({...state, selected: squareNum, selectedRow: state.num1, selectedMultiplier: multiplier1, selectedRow2: null, selectedMultiplier2: null});
+			setState({
+				...state, 
+				selected: squareNum, 
+				selectedRow: state.num1, 
+				selectedMultiplier: multiplier1, 
+				selectedRow2: null, 
+				selectedMultiplier2: null,
+			});
 		}
 		else {
-			setState({...state, selected: squareNum, selectedRow: state.num2, selectedMultiplier: multiplier2, selectedRow2: null, selectedMultiplier2: null});
+			setState({
+				...state, 
+				selected: squareNum, 
+				selectedRow: state.num2, 
+				selectedMultiplier: multiplier2, 
+				selectedRow2: null, 
+				selectedMultiplier2: null});
 		}
+	}
+
+	const confirm = () => {
+		const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
+		const newList = state[playerArray];
+		newList.push(state.selected);
+
+		const persistingNumState = Object.entries(state).find(entry => entry[1] === state.selectedRow)[0];
+		const newNumState = persistingNumState === 'num1' ? 'num2' : 'num1';
+
+		setState({
+			...state,
+			[playerArray]: newList,
+			[newNumState]: state.selectedMultiplier,
+			selected: null,
+			selectedRow: null,
+			selectedMultiplier: null,
+			currentPlayer1: !state.currentPlayer1,
+		})
 	}
 
 	const bothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
@@ -79,7 +118,7 @@ function App() {
 					<p>or</p>
 					<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 				</button>
-				: <button className="confirm" type="button" disabled={false}>Confirm</button>
+				: <button className="confirm" type="button" disabled={!state.selected} onClick={confirm}>{!!state.selected ? 'Confirm' : 'Select a number'}</button>
 			}
 		</div>
   	);
