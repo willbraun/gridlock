@@ -118,10 +118,13 @@ function App() {
 				/>
 				<div className="bottom">
 					{!state.num1
-						? 	<FirstNumberSelection />
+						? 	<FirstNumberSelection 
+								appState={state} 
+								setAppState={setState}
+							/>
 						:   <NumberSelection 
-								appState={state} s
-								etAppState={setState} 
+								appState={state} 
+								setAppState={setState} 
 								num1Multipliers={num1Multipliers} 
 								num2Multipliers={num2Multipliers}
 							/>

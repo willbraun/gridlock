@@ -1,19 +1,23 @@
-import { useState } from 'react';
 import NumberCircle from './NumberCircle';
 import { digits } from './../data';
 import './../styles/firstnumberselection.css';
 
-const FirstNumberSelection = () => {
-    const [state, setState] = useState({
-        num1: null,
-        num2: null,
-    })
+const FirstNumberSelection = (appState, setAppState) => {
 
     const selectFirstNumbers = (number, property) => {
-        setState({...state, [property]: number});
+        console.log(setAppState);
+        console.log(appState);
+        setAppState({...appState, [property]: number});
     }
 
-    const [digitList1, digitList2] = ['num1', 'num2'].map(stateProperty => digits.map(digit => <NumberCircle key={digit} value={digit} selectFunction={() => selectFirstNumbers(digit, stateProperty)}/>));
+    const [digitList1, digitList2] = ['selectedRow', 'selectedMultiplier'].map(stateProperty => digits.map(digit => 
+        <NumberCircle 
+            key={digit} 
+            value={digit} 
+            selectFunction={() => selectFirstNumbers(digit, stateProperty)}
+            selected={appState[stateProperty] === digit ? 1 : 0}
+            />
+        ));
     
     return (
         <>
