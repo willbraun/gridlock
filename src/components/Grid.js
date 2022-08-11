@@ -25,8 +25,10 @@ const Grid = ({appState, setAppState, options, selectSquare}) => {
     const squares = numbers.map(num => <Square key={num} number={num} type={getSquareType(num)} selectSquare={selectSquare}/>)
 
     return (
-        <div className="grid">
-            {squares}
+        <div className={`grid-border ${appState.currentPlayer1 ? 'p1' : 'p2'}`}>
+            <div className="grid">
+                {squares}
+            </div>
         </div>
     )
 }

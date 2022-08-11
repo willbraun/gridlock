@@ -1,9 +1,24 @@
+.grid-border {
+    border: 0.5rem solid var(--red);
+    border-radius: 0.5rem;
+    margin: 0 0 1.5rem 0;
+}
+
+.grid-border.p1 {
+    border-color: var(--red);
+}
+
+.grid-border.p2 {
+    border-color: var(--blue);
+}
+
 .grid {
     position: relative;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    grid-gap: 1px;
+    background-color: #ccc;
     width: 100%;
     aspect-ratio: 1 / 1;
-    margin: 0 auto 1rem;
     border: 1px solid #000;
 }

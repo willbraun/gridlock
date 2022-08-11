@@ -1,4 +1,4 @@
-.App {
+.app-inner {
   	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
@@ -9,12 +9,19 @@
 	margin: 1rem auto;
 }
 
+.bottom {
+	border: 1px solid #000;
+	border-radius: 0.5rem;
+	background-color: #f9f9f9;
+	padding: 0.3rem;
+}
+
 .confirm {
     display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	margin: 1rem 0;
+	width: 90%;
+	margin: 1rem auto;
 	padding: 0rem;
 	background-color: var(--green);
 	border: none;
@@ -24,11 +31,11 @@
 }
 
 .confirm:disabled {
-	background-color: #eee;
+	background-color: #ccc;
 	color: #666;
 }
 
-.confirm.disabled > * {
+.confirm.disabled > *:not(:last-child) {
 	margin: 0 0.7rem 0 0;
 }
 

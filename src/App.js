@@ -107,19 +107,23 @@ function App() {
 	const bothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
   	 
 	return (
-		<div className="App">
-			<Header />
-			<Grid appState={state} setAppState={setState} options={options} selectSquare={selectSquare}/>
-			<NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/>
-			{bothRows 
-				? <button className="confirm disabled" type="button" disabled={true}>
-					<p>Select</p>
-					<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
-					<p>or</p>
-					<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
-				</button>
-				: <button className="confirm" type="button" disabled={!state.selected} onClick={confirm}>{!!state.selected ? 'Confirm' : 'Select a number'}</button>
-			}
+		<div className="app">
+			<div className="app-inner">
+				<Header />
+				<Grid appState={state} setAppState={setState} options={options} selectSquare={selectSquare}/>
+				<div className="bottom">
+					<NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/>
+					{bothRows 
+						? <button className="confirm disabled" type="button" disabled={true}>
+							<p>Select</p>
+							<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
+							<p>or</p>
+							<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
+						</button>
+						: <button className="confirm" type="button" disabled={!state.selected} onClick={confirm}>{!!state.selected ? 'Confirm' : 'Select a number'}</button>
+					}
+				</div>
+			</div>
 		</div>
   	);
 }
