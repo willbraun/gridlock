@@ -34,7 +34,7 @@ const NumberRow = ({appState, setAppState, number, multipliers}) => {
     }
 
     
-    const multipliersList = multipliers.map(mult => <NumberCircle key={mult} value={mult} selectMultiplier={selectMultiplier} selected={isSelectedMultiplier(mult)} disabled={false}/>)
+    const multipliersList = multipliers.map(mult => <NumberCircle key={mult} value={mult} selectFunction={selectMultiplier} selected={isSelectedMultiplier(mult)} disabled={false}/>)
 
     return (
         <div className="number-row">

@@ -1,6 +1,6 @@
 import './../styles/numbercircle.css';
 
-const NumberCircle = ({value, selectMultiplier, selected, disabled}) => {
+const NumberCircle = ({value, selectFunction, selected, disabled}) => {
 
     return (
         <button 
@@ -12,7 +12,7 @@ const NumberCircle = ({value, selectMultiplier, selected, disabled}) => {
                         : ''
                 }`} 
             type="button" 
-            onClick={() => selectMultiplier(value)}
+            onClick={() => selectFunction(value)}
             disabled={disabled}>
             <p>{value}</p>
         </button>

@@ -3,17 +3,17 @@ import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
 import './styles/header.css';
+import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
-import NumberCircle from './components/NumberCircle';
 import { numbers } from './data';
 
 function App() {
 	const [state, setState] = useState({
 		currentPlayer1: true,
-		p1Squares: [3, 6, 18, 42, 63, 16],
-        p2Squares: [2, 20, 35, 72, 81, 64],
-		num1: 2,
-		num2: 8,
+		p1Squares: [],
+        p2Squares: [],
+		num1: null,
+		num2: null,
 		selected: null,
 		selectedRow: null,
         selectedMultiplier: null,
@@ -110,9 +110,25 @@ function App() {
 		<div className="app">
 			<div className="app-inner">
 				<Header />
-				<Grid appState={state} setAppState={setState} options={options} selectSquare={selectSquare}/>
+				<Grid 
+					appState={state} 
+					setAppState={setState} 
+					options={options} 
+					selectSquare={selectSquare}
+				/>
 				<div className="bottom">
-					<NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/>
+					{!state.num1
+						? 	<FirstNumberSelection />
+						:   <NumberSelection 
+								appState={state} s
+								etAppState={setState} 
+								num1Multipliers={num1Multipliers} 
+								num2Multipliers={num2Multipliers}
+							/>
+					}
+					
+					{/* <NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/> */}
+					
 					{bothRows 
 						? <button className="confirm disabled" type="button" disabled={true}>
 							<p>Select</p>
@@ -120,7 +136,12 @@ function App() {
 							<p>or</p>
 							<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 						</button>
-						: <button className="confirm" type="button" disabled={!state.selected} onClick={confirm}>{!!state.selected ? 'Confirm' : 'Select a number'}</button>
+						: <button className="confirm" type="button" disabled={!state.selected} onClick={confirm}>{!!state.selected 
+							? 'Confirm' 
+							:  !state.selectedRow
+								?  'Select numbers'
+								:  'Select a number'}
+						</button>
 					}
 				</div>
 			</div>

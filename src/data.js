@@ -6,3 +6,5 @@ export const numbers = [
     36, 40, 42, 45, 48, 49, 
     54, 56, 63, 64, 72, 81
 ];
+
+export const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9];

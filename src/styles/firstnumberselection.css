@@ -1,0 +1,18 @@
+.first-number-selection {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+.digit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.divider {
+    position: relative;
+    min-height: 100%;
+    width: 1px;
+    background-color: #ccc;
+}
