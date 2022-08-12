@@ -5,7 +5,7 @@ import './App.css';
 import './styles/header.css';
 import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
-import { numbers } from './data';
+import { numbers, getAllQuads } from './data';
 
 function App() {
 	const [state, setState] = useState({
@@ -20,6 +20,8 @@ function App() {
 		selectedRow2: null,
 		selectedMultiplier2: null,
 	})
+
+	const quads = getAllQuads(numbers);
 
 	const isFirstTurn = !state.num1;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
