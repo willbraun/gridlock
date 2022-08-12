@@ -19,12 +19,12 @@ function App() {
         selectedMultiplier: null,
 		selectedRow2: null,
 		selectedMultiplier2: null,
+		winningQuad: [],
 	})
-
-	const quads = getAllQuads(numbers);
 
 	const isFirstTurn = !state.num1;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
+	const gameOver = state.winningQuad.length > 0;
 
 	const getAvailableSqaures = () => {
         const taken = [...state.p1Squares, ...state.p2Squares];
@@ -91,24 +91,39 @@ function App() {
 		}
 	}
 
+	const checkForWin = array => {
+		const winningQuads = getAllQuads(numbers);
+		return winningQuads.find(quad => quad.every(num => array.includes(num)));
+	}
+
 	const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
 
 	const confirm = () => {
 		const newList = state[playerArray];
 		newList.push(state.selected);
 
-		const persistingNumState = Object.entries(state).find(entry => entry[1] === state.selectedRow)[0];
-		const newNumState = persistingNumState === 'num1' ? 'num2' : 'num1';
+		const winningQuad = checkForWin(newList);
 
-		setState({
-			...state,
-			[playerArray]: newList,
-			[newNumState]: state.selectedMultiplier,
-			selected: null,
-			selectedRow: null,
-			selectedMultiplier: null,
-			currentPlayer1: !state.currentPlayer1,
-		})
+		if (!!winningQuad) {
+			setState({
+				...state,
+				winningQuad: winningQuad, 
+			})
+		}
+		else {
+			const persistingNumState = Object.entries(state).find(entry => entry[1] === state.selectedRow)[0];
+			const newNumState = persistingNumState === 'num1' ? 'num2' : 'num1';
+	
+			setState({
+				...state,
+				[playerArray]: newList,
+				[newNumState]: state.selectedMultiplier,
+				selected: null,
+				selectedRow: null,
+				selectedMultiplier: null,
+				currentPlayer1: !state.currentPlayer1,
+			})
+		}
 	}
 
 	const firstConfirm = () => {

@@ -3,23 +3,30 @@ import Square from "./Square";
 import './../styles/grid.css';
 
 const Grid = ({appState, setAppState, options, selectSquare}) => {
-    
+
     const getSquareType = number => {
+        let result = [];
+        
+        if (appState.winningQuad.includes(number)) {
+            result.push('winningSquare')
+        }
+
         if (appState.p1Squares.includes(number)) {
-            return 'p1Square';
+            result.push('p1Square')
         }
         else if (appState.p2Squares.includes(number)) {
-            return 'p2Square';
+            result.push('p2Square')
         }
         else if (appState.selected === number) {
-            return 'selectedSquare';
+            result.push('selectedSquare')
         }
         else if (options.includes(number)) {
-            return 'optionSquare';
+            result.push('optionSquare')
         }
         else {
-            return 'notOptionSquare';
+            result.push('notOptionSquare')
         }
+        return result.join(' ');
     }
 
     const squares = numbers.map(num => <Square key={num} number={num} type={getSquareType(num)} selectSquare={selectSquare}/>)

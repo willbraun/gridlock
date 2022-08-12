@@ -28,3 +28,20 @@
 .notOptionSquare {
     background-color: #eee;
 }
+
+.winningSquare {
+    animation: win 2s infinite;
+    z-index: 10;
+}
+
+@keyframes win {
+    0% {
+        filter: saturate(100%);
+    }
+    33% {
+        filter: saturate(500%);
+    }
+    100% {
+        filter: saturate(100%);
+    }
+}
