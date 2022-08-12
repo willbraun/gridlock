@@ -104,7 +104,19 @@ function App() {
 		})
 	}
 
-	const bothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
+	const firstConfirm = () => {
+		setState({
+			num1: state.selectedRow,
+			num2: state.selectedMultiplier,
+			selected: null,
+			selectedRow: null,
+			selectedMultiplier: null,
+			currentPlayer1: !state.currentPlayer1,
+		})
+	}
+
+	const isFirstTurn = !state.num1;
+	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
   	 
 	return (
 		<div className="app">
@@ -117,7 +129,7 @@ function App() {
 					selectSquare={selectSquare}
 				/>
 				<div className="bottom">
-					{!state.num1
+					{isFirstTurn
 						? 	<FirstNumberSelection 
 								appState={state} 
 								setAppState={setState}
@@ -132,14 +144,14 @@ function App() {
 					
 					{/* <NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/> */}
 					
-					{bothRows 
+					{isBothRows 
 						? <button className="confirm disabled" type="button" disabled={true}>
 							<p>Select</p>
 							<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
 							<p>or</p>
 							<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 						</button>
-						: <button className="confirm" type="button" disabled={!state.selected} onClick={confirm}>{!!state.selected 
+						: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? confirm : firstConfirm}>{!!state.selected 
 							? 'Confirm' 
 							:  !state.selectedRow
 								?  'Select numbers'

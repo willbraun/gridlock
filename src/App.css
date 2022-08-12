@@ -4,7 +4,7 @@
 	transform: translateX(-50%);
 	text-align: center;
 	width: calc(100% - 2rem);
-	max-width: 40vh;
+	max-width: 45vh;
 	height: calc(100% - 2rem); 
 	margin: 1rem auto;
 }

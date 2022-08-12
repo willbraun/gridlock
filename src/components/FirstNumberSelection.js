@@ -2,12 +2,20 @@ import NumberCircle from './NumberCircle';
 import { digits } from './../data';
 import './../styles/firstnumberselection.css';
 
-const FirstNumberSelection = (appState, setAppState) => {
+const FirstNumberSelection = ({appState, setAppState}) => {
 
     const selectFirstNumbers = (number, property) => {
-        console.log(setAppState);
-        console.log(appState);
-        setAppState({...appState, [property]: number});
+        if (property === 'selectedRow' && !!appState.selectedMultiplier) {
+            const selected = number * appState.selectedMultiplier;
+            setAppState({...appState, [property]: number, selected: selected})
+        }
+        else if (property === 'selectedMultiplier' && !!appState.selectedRow) {
+            const selected = number * appState.selectedRow;
+            setAppState({...appState, [property]: number, selected: selected})
+        }
+        else {
+            setAppState({...appState, [property]: number});
+        }
     }
 
     const [digitList1, digitList2] = ['selectedRow', 'selectedMultiplier'].map(stateProperty => digits.map(digit => 
