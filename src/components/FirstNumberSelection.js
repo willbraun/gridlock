@@ -28,19 +28,15 @@ const FirstNumberSelection = ({appState, setAppState}) => {
         ));
     
     return (
-        <>
-        <p>Select a number from each side</p>
         <div className="first-number-selection">
             <div className="digit-grid">
                 {digitList1}
             </div>
-            <div className="divider"></div>
+            <p className="first-x">x</p>
             <div className="digit-grid">
                 {digitList2}
             </div>
         </div>
-        </>
-        
     )
 }
 

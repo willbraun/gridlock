@@ -21,6 +21,9 @@ function App() {
 		selectedMultiplier2: null,
 	})
 
+	const isFirstTurn = !state.num1;
+	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
+
 	const getAvailableSqaures = () => {
         const taken = [...state.p1Squares, ...state.p2Squares];
         let result = [...numbers];
@@ -81,12 +84,14 @@ function App() {
 				selectedRow: state.num2, 
 				selectedMultiplier: multiplier2, 
 				selectedRow2: null, 
-				selectedMultiplier2: null});
+				selectedMultiplier2: null
+			});
 		}
 	}
 
+	const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
+
 	const confirm = () => {
-		const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
 		const newList = state[playerArray];
 		newList.push(state.selected);
 
@@ -106,6 +111,8 @@ function App() {
 
 	const firstConfirm = () => {
 		setState({
+			...state,
+			[playerArray]: [state.selected],
 			num1: state.selectedRow,
 			num2: state.selectedMultiplier,
 			selected: null,
@@ -113,10 +120,8 @@ function App() {
 			selectedMultiplier: null,
 			currentPlayer1: !state.currentPlayer1,
 		})
+		console.log('test');
 	}
-
-	const isFirstTurn = !state.num1;
-	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
   	 
 	return (
 		<div className="app">
@@ -141,9 +146,6 @@ function App() {
 								num2Multipliers={num2Multipliers}
 							/>
 					}
-					
-					{/* <NumberSelection appState={state} setAppState={setState} num1Multipliers={num1Multipliers} num2Multipliers={num2Multipliers}/> */}
-					
 					{isBothRows 
 						? <button className="confirm disabled" type="button" disabled={true}>
 							<p>Select</p>
@@ -151,11 +153,13 @@ function App() {
 							<p>or</p>
 							<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 						</button>
-						: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? confirm : firstConfirm}>{!!state.selected 
-							? 'Confirm' 
-							:  !state.selectedRow
-								?  'Select numbers'
-								:  'Select a number'}
+						: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? firstConfirm : confirm}>{
+							!!state.selected 
+								? 'Confirm' 
+								:  isFirstTurn
+									?  'Select numbers'
+									:  'Select a number'
+							}
 						</button>
 					}
 				</div>

@@ -10,9 +10,6 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
-.divider {
-    position: relative;
-    min-height: 100%;
-    width: 1px;
-    background-color: #ccc;
+.first-x {
+    margin: auto;
 }

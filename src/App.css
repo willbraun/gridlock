@@ -4,7 +4,7 @@
 	transform: translateX(-50%);
 	text-align: center;
 	width: calc(100% - 2rem);
-	max-width: 45vh;
+	max-width: 40vh;
 	height: calc(100% - 2rem); 
 	margin: 1rem auto;
 }
@@ -21,7 +21,7 @@
 	justify-content: center;
 	align-items: center;
 	width: 90%;
-	margin: 1rem auto;
+	margin: 1rem auto 1rem;
 	padding: 0rem;
 	background-color: var(--green);
 	border: none;
