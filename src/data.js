@@ -8,3 +8,28 @@ export const numbers = [
 ];
 
 export const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const getHorizontalQuads = (numberArray) => {
+    const result = [];
+    let position;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 3; j++) {
+            position = (6 * i) + j;
+            result.push(numberArray.slice(position, position + 4));
+        }
+    }
+    return result;
+}
+
+const getVerticalQuads = (numberArray) => {
+    const result = [];
+    let position;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 3; j++) {
+            position = i + 6 * j;
+            result.push([numberArray[position], numberArray[position + 6], numberArray[position + 12], numberArray[position + 18]]);
+        }
+    }
+    return result;
+}
+

@@ -3,7 +3,7 @@ import Square from "./Square";
 import './../styles/grid.css';
 
 const Grid = ({appState, setAppState, options, selectSquare}) => {
-
+    
     const getSquareType = number => {
         if (appState.p1Squares.includes(number)) {
             return 'p1Square';

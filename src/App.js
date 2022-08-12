@@ -120,7 +120,6 @@ function App() {
 			selectedMultiplier: null,
 			currentPlayer1: !state.currentPlayer1,
 		})
-		console.log('test');
 	}
   	 
 	return (
