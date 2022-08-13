@@ -30,18 +30,19 @@
 }
 
 .winningSquare {
-    animation: win 2s infinite;
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 1px 3px 1px #333;
     z-index: 10;
 }
 
-@keyframes win {
+@keyframes pulse {
     0% {
-        filter: saturate(100%);
+        transform: scale(1);
     }
-    33% {
-        filter: saturate(500%);
+    40% {
+        transform: scale(1.2);
     }
     100% {
-        filter: saturate(100%);
+        transform: scale(1);
     }
 }
