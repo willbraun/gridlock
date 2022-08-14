@@ -5,10 +5,11 @@ import './App.css';
 import './styles/header.css';
 import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
+import GameOver from './components/GameOver';
 import { numbers, getAllQuads } from './data';
 
 function App() {
-	const [state, setState] = useState({
+	const startGame = {
 		currentPlayer1: true,
 		p1Squares: [],
         p2Squares: [],
@@ -20,11 +21,17 @@ function App() {
 		selectedRow2: null,
 		selectedMultiplier2: null,
 		winningQuad: [],
-	})
+	}
+	
+	const [state, setState] = useState(startGame);
 
 	const isFirstTurn = !state.num1;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
-	const gameOver = state.winningQuad.length > 0;
+	const isGameOver = state.winningQuad.length > 0;
+
+	const isSingleDigitInt = num => {
+		return Number.isInteger(num) && num < 10;
+	}
 
 	const getAvailableSqaures = () => {
         const taken = [...state.p1Squares, ...state.p2Squares];
@@ -40,7 +47,7 @@ function App() {
 
     const getMultipliers = number => {
         const available = getAvailableSqaures();
-        return available.map(num => num/number).filter(num => Number.isInteger(num) && num < 10);
+        return available.map(num => num/number).filter(num => isSingleDigitInt(num));
     }
 
 	const num1Multipliers = getMultipliers(state.num1);
@@ -56,10 +63,13 @@ function App() {
 	const options = getOptionSquares();
 
 	const selectSquare = squareNum => {
-		const multiplier1 = squareNum/state.num1;
-		const multiplier2 = squareNum/state.num2;
+		const calc1 = squareNum/state.num1;
+		const calc2 = squareNum/state.num2
 
-		if (Number.isInteger(multiplier1) && Number.isInteger(multiplier2)) {
+		const multiplier1 = isSingleDigitInt(calc1) ? calc1 : null;
+		const multiplier2 = isSingleDigitInt(calc2) ? calc2 : null;
+
+		if (!!multiplier1 && !!multiplier2 && multiplier1 !== multiplier2) {
 			setState({
 				...state, 
 				selected: squareNum, 
@@ -69,7 +79,7 @@ function App() {
 				selectedMultiplier2: multiplier2,
 			});
 		}
-		else if (Number.isInteger(multiplier1)) {
+		else if (multiplier1) {
 			setState({
 				...state, 
 				selected: squareNum, 
@@ -138,6 +148,53 @@ function App() {
 			currentPlayer1: !state.currentPlayer1,
 		})
 	}
+
+	const gameBottom = (
+		<>
+		{isFirstTurn
+			? 	<FirstNumberSelection 
+					appState={state} 
+					setAppState={setState}
+				/>
+			:   <NumberSelection 
+					appState={state} 
+					setAppState={setState} 
+					num1Multipliers={num1Multipliers} 
+					num2Multipliers={num2Multipliers}
+				/>
+		}
+		{isBothRows 
+			? <button className="confirm disabled" type="button" disabled={true}>
+				<p>Select</p>
+				<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
+				<p>or</p>
+				<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
+			</button>
+			: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? firstConfirm : confirm}>{
+				!!state.selected 
+					? 'Confirm' 
+					:  isFirstTurn
+						?  'Select numbers'
+						:  'Select a number'
+				}
+			</button>
+		}
+		</>
+	)
+
+	const getWinner = () => {
+		if (isGameOver) {
+			if (state.currentPlayer1) {
+				return 'red';
+			}
+			else {
+				return 'blue';
+			}
+		}
+		else {
+			return '';
+		}
+	}
   	 
 	return (
 		<div className="app">
@@ -149,34 +206,14 @@ function App() {
 					options={options} 
 					selectSquare={selectSquare}
 				/>
-				<div className="bottom">
-					{isFirstTurn
-						? 	<FirstNumberSelection 
+				<div className={`bottom ${getWinner()}`}>
+					{isGameOver 
+						? 	<GameOver 
 								appState={state} 
 								setAppState={setState}
+								startGame={startGame}
 							/>
-						:   <NumberSelection 
-								appState={state} 
-								setAppState={setState} 
-								num1Multipliers={num1Multipliers} 
-								num2Multipliers={num2Multipliers}
-							/>
-					}
-					{isBothRows 
-						? <button className="confirm disabled" type="button" disabled={true}>
-							<p>Select</p>
-							<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
-							<p>or</p>
-							<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
-						</button>
-						: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? firstConfirm : confirm}>{
-							!!state.selected 
-								? 'Confirm' 
-								:  isFirstTurn
-									?  'Select numbers'
-									:  'Select a number'
-							}
-						</button>
+						: 	gameBottom
 					}
 				</div>
 			</div>

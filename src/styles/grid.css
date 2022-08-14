@@ -2,6 +2,7 @@
     border: 0.5rem solid var(--red);
     border-radius: 0.5rem;
     margin: 0 0 1.5rem 0;
+    transition: 0.5s
 }
 
 .grid-border.p1 {
