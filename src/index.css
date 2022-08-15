@@ -4,6 +4,7 @@
 	--yellow: rgb(255, 255, 161);
 	--red: rgb(255, 116, 116);
 	--blue: rgb(145, 181, 255);
+	--grid-size: minmax(40vh, calc(100vw - 2rem));
 }
 
 body {
