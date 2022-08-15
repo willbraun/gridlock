@@ -3,9 +3,9 @@
 	left: 50%;
 	transform: translateX(-50%);
 	text-align: center;
-	width: calc(100% - 2rem);
-	max-width: 40vh;
-	height: calc(100% - 2rem); 
+	width: var(--grid-size);
+	/* max-width: 40vw; */
+	height: calc(100vh - 2rem); 
 	margin: 0.5rem auto;
 }
 
