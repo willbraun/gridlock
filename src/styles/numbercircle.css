@@ -1,4 +1,5 @@
 .number-circle {
+    position: relative;
     height: 5vh;
     width: 5vh;
     border: 1px solid #ddd;

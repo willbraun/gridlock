@@ -5,8 +5,6 @@
     margin: 0 0 0.5rem 0;
     transition: 0.3s;
     width: 100%;
-    max-height: var(--grid-size);
-    max-width: var(--grid-size);
     aspect-ratio: 1;
 }
 
