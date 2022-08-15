@@ -1,6 +1,6 @@
 .number-circle {
     height: 5vh;
-    min-width: 5vh;
+    width: 5vh;
     border: 1px solid #ddd;
     border-radius: 50%;
     background-color: var(--yellow);
