@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.1rem;
+    padding: 0;
     font-size: 3vh;
     transition: 0.05s;
     aspect-ratio: 1 / 1;
