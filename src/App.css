@@ -3,7 +3,7 @@
 	left: 50%;
 	transform: translateX(-50%);
 	text-align: center;
-	width: calc(100vw - 6rem);
+	width: var(--mobile-grid-size);
 	margin: 0.5rem auto;
 }
 
@@ -20,7 +20,8 @@
 
 .bottom.red button {
 	background-color: var(--red);
-	filter: brightness(160%)
+	filter: brightness(160%);
+	color: #000;
 }
 
 .bottom.blue {
@@ -29,7 +30,8 @@
 
 .bottom.blue button {
 	background-color: var(--blue);
-	filter: brightness(125%)
+	filter: brightness(125%);
+	color: #000;
 }
 
 .bottom button:not(.number-circle) {
@@ -79,6 +81,6 @@
 
 @media (min-width: 600px) {
 	.app-inner {
-		width: 40vh;
+		width: var(--desktop-grid-size);
 	}
 }
