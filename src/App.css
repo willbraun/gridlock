@@ -38,8 +38,8 @@
     display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 90%;
-	margin: 1rem auto 1rem;
+	width: 100%;
+	margin: 0 auto;
 	padding: 0rem;
 	border: none;
 	border-radius: 0.3rem;

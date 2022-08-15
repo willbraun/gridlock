@@ -7,7 +7,7 @@ const NumberSelection = ({appState, setAppState, num1Multipliers, num2Multiplier
             <NumberRow appState={appState} setAppState={setAppState} number={appState.num1} multipliers={num1Multipliers}/>
             {appState.num1 !== appState.num2 &&
             <>
-                <p>or</p>
+                
                 <NumberRow appState={appState} setAppState={setAppState} number={appState.num2} multipliers={num2Multipliers}/>
             </>
             }
