@@ -20,7 +20,7 @@
     position: relative;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-gap: 1px;
+    /* grid-gap: 1px; */
     background-color: #ccc;
     width: 100%;
     aspect-ratio: 1 / 1;
