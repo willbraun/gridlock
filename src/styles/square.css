@@ -7,8 +7,9 @@
     font-size: 3vh;
     color: #000;
     transition: 0.1s;
-    height: 100%;
     width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0;
 }
 
 .p1Square {
