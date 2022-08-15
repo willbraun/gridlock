@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/gridlock/static/css/main.13b78166.css",
+    "main.css": "/gridlock/static/css/main.0b104808.css",
     "main.js": "/gridlock/static/js/main.2a323063.js",
     "static/js/787.fb889ad2.chunk.js": "/gridlock/static/js/787.fb889ad2.chunk.js",
     "index.html": "/gridlock/index.html",
-    "main.13b78166.css.map": "/gridlock/static/css/main.13b78166.css.map",
+    "main.0b104808.css.map": "/gridlock/static/css/main.0b104808.css.map",
     "main.2a323063.js.map": "/gridlock/static/js/main.2a323063.js.map",
     "787.fb889ad2.chunk.js.map": "/gridlock/static/js/787.fb889ad2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.13b78166.css",
+    "static/css/main.0b104808.css",
     "static/js/main.2a323063.js"
   ]
 }
