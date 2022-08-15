@@ -11,6 +11,7 @@
     margin: 0.1rem;
     font-size: 3vh;
     transition: 0.05s;
+    aspect-ratio: 1 / 1;
 }
 
 .number-circle:disabled {
