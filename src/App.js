@@ -27,7 +27,7 @@ function App() {
 
 	const isFirstTurn = !state.num1;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
-	const isGameOver = state.winningQuad.length > 0;
+	const isWin = state.winningQuad.length > 0;
 
 	const isSingleDigitInt = num => {
 		return Number.isInteger(num) && num < 10;
@@ -52,6 +52,7 @@ function App() {
 
 	const num1Multipliers = getMultipliers(state.num1);
 	const num2Multipliers = getMultipliers(state.num2);
+	const isDraw = num1Multipliers.length === 0 && num2Multipliers.length === 0 && !!state.num1;
 
 	const getOptionSquares = () => {
 		const num1Options = num1Multipliers.map(num => num * state.num1);
@@ -183,7 +184,7 @@ function App() {
 	)
 
 	const getWinner = () => {
-		if (isGameOver) {
+		if (isWin) {
 			if (state.currentPlayer1) {
 				return 'red';
 			}
@@ -206,12 +207,13 @@ function App() {
 					options={options} 
 					selectSquare={selectSquare}
 				/>
-				<div className={`bottom ${getWinner()}`}>
-					{isGameOver 
+				<div className={`bottom ${isWin && getWinner()} ${isDraw && 'draw'}`}>
+					{isWin || isDraw
 						? 	<GameOver 
 								appState={state} 
 								setAppState={setState}
 								startGame={startGame}
+								isDraw={isDraw}
 							/>
 						: 	gameBottom
 					}

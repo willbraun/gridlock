@@ -1,4 +1,4 @@
-const GameOver = ({appState, setAppState, startGame}) => {
+const GameOver = ({appState, setAppState, startGame, isDraw}) => {
     const winner = appState.currentPlayer1 ? 'Red' : 'Blue';
     
     const resetGame = () => {
@@ -7,7 +7,10 @@ const GameOver = ({appState, setAppState, startGame}) => {
 
     return (
         <div className="game-over">
-            <h2>{`${winner} wins!`}</h2>
+            {isDraw 
+                ?   <h2>Draw</h2>
+                :   <h2>{`${winner} wins!`}</h2>
+            }
             <button className="play-again" type="button" onClick={resetGame}>Play again</button>
         </div>
     )

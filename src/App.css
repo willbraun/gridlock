@@ -34,6 +34,15 @@
 	color: #000;
 }
 
+.bottom.draw {
+	background-color: var(--purple);
+}
+
+.bottom.draw button {
+	background-color: var(--purple);
+	filter: brightness(125%);
+}
+
 .bottom button:not(.number-circle) {
     display: flex;
 	justify-content: center;
