@@ -1,6 +1,6 @@
 # Overview
 
-Gridlock is a simple 2-player number game involving geometry and multiplication. This runs entirely in the browser so two people can play on one device. I designed this mainly for mobile so it's easy to pull up if there is downtime while traveling.  
+Gridlock is a simple 2-player number game involving geometry and multiplication. This runs entirely in the browser so two people can play on one device. I designed this mainly for mobile so it's easy to pull up if there is downtime while traveling, but it will work on any device. 
 
 # Rules
 
