@@ -2,6 +2,8 @@
 
 Gridlock is a simple 2-player number game involving geometry and multiplication. This runs entirely in the browser so two people can play on one device. I designed this mainly for mobile so it's easy to pull up if there is downtime while traveling, but it will work on any device. 
 
+Play here - https://willbraun.github.io/gridlock/
+
 # Rules
 
 - Gridlock starts with 6x6 grid of all numbers 1-9 multiplied together, from 1 (1x1) to 81 (9x9), and all products in between. 
