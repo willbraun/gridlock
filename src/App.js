@@ -151,51 +151,37 @@ function App() {
 	}
 
 	const gameBottom = (
-		<>
-		{isFirstTurn
-			? 	<FirstNumberSelection 
-					appState={state} 
-					setAppState={setState}
-				/>
-			:   <NumberSelection 
-					appState={state} 
-					setAppState={setState} 
-					num1Multipliers={num1Multipliers} 
-					num2Multipliers={num2Multipliers}
-				/>
-		}
-		{isBothRows 
-			? <button className="confirm disabled" type="button" disabled={true}>
-				<p>Select</p>
-				<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
-				<p>or</p>
-				<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
-			</button>
-			: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? firstConfirm : confirm}>{
-				!!state.selected 
-					? 'Confirm' 
-					:  isFirstTurn
-						?  'Select numbers'
-						:  'Select a number'
-				}
-			</button>
-		}
-		</>
+		<div className="bottom">
+			{isFirstTurn
+				? 	<FirstNumberSelection 
+						appState={state} 
+						setAppState={setState}
+					/>
+				:   <NumberSelection 
+						appState={state} 
+						setAppState={setState} 
+						num1Multipliers={num1Multipliers} 
+						num2Multipliers={num2Multipliers}
+					/>
+			}
+			{isBothRows 
+				? <button className="confirm disabled" type="button" disabled={true}>
+					<p>Select</p>
+					<div className="confirm-select-circle">{state.selectedMultiplier}</div> 
+					<p>or</p>
+					<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
+				</button>
+				: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? firstConfirm : confirm}>{
+					!!state.selected 
+						? 'Confirm' 
+						:  isFirstTurn
+							?  'Select numbers'
+							:  'Select a number'
+					}
+				</button>
+			}
+		</div>
 	)
-
-	const getWinner = () => {
-		if (isWin) {
-			if (state.currentPlayer1) {
-				return 'red';
-			}
-			else {
-				return 'blue';
-			}
-		}
-		else {
-			return '';
-		}
-	}
   	 
 	return (
 		<div className="app">
@@ -207,17 +193,16 @@ function App() {
 					options={options} 
 					selectSquare={selectSquare}
 				/>
-				<div className={`bottom ${isWin && getWinner()} ${isDraw && 'draw'}`}>
-					{isWin || isDraw
-						? 	<GameOver 
-								appState={state} 
-								setAppState={setState}
-								startGame={startGame}
-								isDraw={isDraw}
-							/>
-						: 	gameBottom
-					}
-				</div>
+				{isWin || isDraw
+					? 	<GameOver 
+						appState={state} 
+						setAppState={setState}
+						startGame={startGame}
+						isWin={isWin}
+						isDraw={isDraw}
+						/>
+					: 	gameBottom	
+				}
 			</div>
 		</div>
   	);

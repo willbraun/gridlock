@@ -7,43 +7,16 @@
 	margin: 0.5rem auto;
 }
 
-.bottom {
+.bottom,
+.game-over {
 	border: 1px solid #000;
 	border-radius: 0.5rem;
 	background-color: #f9f9f9;
 	padding: 0.3rem;
 }
 
-.bottom.red {
-	background-color: var(--red);
-}
-
-.bottom.red button {
-	background-color: var(--red);
-	filter: brightness(160%);
-	color: #000;
-}
-
-.bottom.blue {
-	background-color: var(--blue);
-}
-
-.bottom.blue button {
-	background-color: var(--blue);
-	filter: brightness(125%);
-	color: #000;
-}
-
-.bottom.draw {
-	background-color: var(--purple);
-}
-
-.bottom.draw button {
-	background-color: var(--purple);
-	filter: brightness(125%);
-}
-
-.bottom button:not(.number-circle) {
+.bottom button:not(.number-circle),
+.game-over button {
     display: flex;
 	justify-content: center;
 	align-items: center;

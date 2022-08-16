@@ -1,0 +1,28 @@
+.game-over.red {
+	background-color: var(--red);
+}
+
+.game-over.red button {
+	background-color: var(--red);
+	filter: brightness(160%);
+	color: #000;
+}
+
+.game-over.blue {
+	background-color: var(--blue);
+}
+
+.game-over.blue button {
+	background-color: var(--blue);
+	filter: brightness(125%);
+	color: #000;
+}
+
+.game-over.draw {
+	background-color: var(--purple);
+}
+
+.game-over.draw button {
+	background-color: var(--purple);
+	filter: brightness(125%);
+}
