@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Settings from './Settings';
 import gear from './../images/gear-solid.svg';
 
-const Header = () => {
+const Header = ({appState, setAppState}) => {
     const [show, setShow] = useState(false);
     
     return (
@@ -13,7 +13,12 @@ const Header = () => {
                     <img src={gear} alt="gear icon" />
                 </button>
             </div>
-            <Settings show={show} setShow={setShow}/>
+            <Settings 
+                show={show} 
+                setShow={setShow}
+                appState={appState} 
+				setAppState={setAppState}
+            />
         </>
     )
 }

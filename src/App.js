@@ -9,6 +9,11 @@ import GameOver from './components/GameOver';
 import { numbers, getAllQuads } from './data';
 
 function App() {
+	const settings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
+	const blankSettings = {
+        mode: 0,
+    }
+	
 	const startGame = {
 		currentPlayer1: true,
 		p1Squares: [],
@@ -21,6 +26,7 @@ function App() {
 		selectedRow2: null,
 		selectedMultiplier2: null,
 		winningQuad: [],
+		settings: settings ?? blankSettings,
 	}
 	
 	const [state, setState] = useState(startGame);
@@ -186,7 +192,11 @@ function App() {
 	return (
 		<div className="app">
 			<div className="app-inner">
-				<Header />
+				<Header 
+					appState={state} 
+					setAppState={setState}
+					blankSettings={blankSettings}
+				/>
 				<Grid 
 					appState={state} 
 					setAppState={setState} 
