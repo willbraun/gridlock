@@ -1,3 +1,20 @@
+.header {
+    position: relative;
+}
+
 h1 {
     margin: 0 0 0.5rem 0;
+}
+
+.gear-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    filter: invert(61%) sepia(10%) saturate(8%) hue-rotate(319deg) brightness(100%) contrast(86%);
+    padding: 0;
+    background-color: transparent;
+    border: none;
 }
