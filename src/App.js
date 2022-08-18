@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
@@ -11,11 +11,22 @@ import { numbers, getAllQuads } from './data';
 function App() {
 	const settings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
 	const blankSettings = {
-        mode: 0,
+        gridLayout: 0,
     }
+
+	const shuffle = array => {
+		const newArray = [...array];
+		newArray.sort(() => Math.random() - 0.5);
+		return newArray;
+	}
+
+	const getBoard = () => {
+		return settings.gridLayout === 0 ? numbers : shuffle(numbers);
+	}
 	
 	const startGame = {
 		currentPlayer1: true,
+		gridLayoutArray: getBoard(),
 		p1Squares: [],
         p2Squares: [],
 		num1: null,
@@ -29,7 +40,11 @@ function App() {
 		settings: settings ?? blankSettings,
 	}
 	
-	const [state, setState] = useState(startGame);
+	const [state, setState] = useState(startGame);	
+
+	useEffect(() => {
+		setState(startGame) ;
+	}, [state.settings.gridLayout]);
 
 	const isFirstTurn = !state.num1;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
@@ -109,7 +124,7 @@ function App() {
 	}
 
 	const checkForWin = array => {
-		const winningQuads = getAllQuads(numbers);
+		const winningQuads = getAllQuads(state.gridLayoutArray);
 		return winningQuads.find(quad => quad.every(num => array.includes(num)));
 	}
 

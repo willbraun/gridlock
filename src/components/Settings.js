@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -34,9 +34,9 @@ const Settings = ({show, setShow, appState, setAppState}) => {
                     <DropdownButton 
                         variant="primary" 
                         id="dropdown-basic-button" 
-                        title={settings.mode === 0 ? 'Classic' : 'Random'}>
-                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, mode: 0})}>Classic</Dropdown.Item>
-                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, mode: 1})}>Random</Dropdown.Item>
+                        title={settings.gridLayout === 0 ? 'Classic' : 'Random'}>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, gridLayout: 0})}>Classic</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, gridLayout: 1})}>Random</Dropdown.Item>
                     </DropdownButton>
                 </div>
             </Modal.Body>
