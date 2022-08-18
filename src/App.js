@@ -11,6 +11,7 @@ import { numbers, getAllQuads } from './data';
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
 	const blankSettings = {
+		playAgainst: 0,
         gridLayout: 0,
     }
 
@@ -45,7 +46,7 @@ function App() {
 	const [state, setState] = useState(startGame);	
 
 	useEffect(() => {
-		setState(startGame) ;
+		setState(startGame);
 	}, [state.settings.gridLayout]);
 
 	const isFirstTurn = !state.num1;

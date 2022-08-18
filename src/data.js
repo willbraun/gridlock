@@ -65,3 +65,15 @@ export const getAllQuads = numberArray => {
         ...getDescDiagonalQuads(numberArray),
     ]
 }
+
+export const settingsMap = {
+    playAgainst: {
+        0: 'Human (local)',
+        1: 'Computer - Easy',
+        2: 'Computer - Hard',
+    },
+    gridLayout: {
+        0: 'Classic',
+        1: 'Random',
+    },
+}

@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import './../styles/settings.css';
+import { settingsMap } from '../data';
 
 const Settings = ({show, setShow, appState, setAppState}) => {
     const [settings, setSettings] = useState(appState.settings);
@@ -29,14 +30,25 @@ const Settings = ({show, setShow, appState, setAppState}) => {
                 <Modal.Title>Settings</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className="setting-row mode-selection">
+                <div className="setting-row">
+                    <p>Play Against</p>
+                    <DropdownButton 
+                        variant="primary" 
+                        id="dropdown-basic-button" 
+                        title={settingsMap.playAgainst[settings.playAgainst]}>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 0})}>{settingsMap.playAgainst[0]}</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 1})}>{settingsMap.playAgainst[1]}</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 2})}>{settingsMap.playAgainst[2]}</Dropdown.Item>
+                    </DropdownButton>
+                </div>
+                <div className="setting-row">
                     <p>Grid Layout</p>
                     <DropdownButton 
                         variant="primary" 
                         id="dropdown-basic-button" 
-                        title={settings.gridLayout === 0 ? 'Classic' : 'Random'}>
-                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, gridLayout: 0})}>Classic</Dropdown.Item>
-                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, gridLayout: 1})}>Random</Dropdown.Item>
+                        title={settingsMap.gridLayout[settings.gridLayout]}>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, gridLayout: 0})}>{settingsMap.gridLayout[0]}</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, gridLayout: 1})}>{settingsMap.gridLayout[1]}</Dropdown.Item>
                     </DropdownButton>
                 </div>
             </Modal.Body>
