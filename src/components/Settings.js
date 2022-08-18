@@ -10,14 +10,14 @@ const Settings = ({show, setShow, appState, setAppState}) => {
     const [settings, setSettings] = useState(appState.settings);
 
     const exitNoSave = () => {
-        setTimeout(() => setSettings(appState.settings), 500);
+        setTimeout(() => setSettings(appState.settings), 150);
         setShow(false);
     }
 
     const saveModal = () => {
         setAppState({...appState, settings: settings});
         window.localStorage.setItem('gridlockSettings', JSON.stringify(settings));
-        setShow(false);;
+        setShow(false);
     }
     
     return (
