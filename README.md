@@ -18,6 +18,12 @@ The border of the grid will show whose turn it is (red or blue). Red goes first.
 
 Be mindful of what numbers you select for your opponent to use on their turn!
 
+# Settings
+
+- Grid Layout - how the numbers are displayed in the grid
+    - Classic - in order from 1 to 81
+    - Random - shuffled differently for a new challenge each game
+
 # Technologies Used
 
 React, JavaScript, HTML, CSS
