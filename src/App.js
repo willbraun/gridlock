@@ -9,10 +9,12 @@ import GameOver from './components/GameOver';
 import { numbers, getAllQuads } from './data';
 
 function App() {
-	const settings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
+	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
 	const blankSettings = {
         gridLayout: 0,
     }
+
+	const settings = savedSettings ?? blankSettings;
 
 	const shuffle = array => {
 		const newArray = [...array];
@@ -37,7 +39,7 @@ function App() {
 		selectedRow2: null,
 		selectedMultiplier2: null,
 		winningQuad: [],
-		settings: settings ?? blankSettings,
+		settings: settings,
 	}
 	
 	const [state, setState] = useState(startGame);	
