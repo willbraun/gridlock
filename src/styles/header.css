@@ -9,7 +9,11 @@
     margin-left: 0.5rem;
 }
 
-.computer-player {
+.vs-icon.red {
+    background-color: var(--red);
+}
+
+.vs-icon.blue {
     background-color: var(--blue);
 }
 

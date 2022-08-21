@@ -26,9 +26,15 @@ function App() {
 	const getBoard = () => {
 		return settings.gridLayout === 0 ? numbers : shuffle(numbers);
 	}
+
+	const randomCompColor = () => {
+		return Math.random() > 0.5;
+	}
 	
 	const startGame = {
 		currentPlayer1: true,
+		isComputerRed: randomCompColor(),
+		isComputerThinking: false,
 		gridLayoutArray: getBoard(),
 		p1Squares: [],
         p2Squares: [],
