@@ -27,7 +27,7 @@ code {
 	box-sizing: border-box;
 }
 
-p {
+h1, p {
 	margin: 0;
 }
 

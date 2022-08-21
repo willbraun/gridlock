@@ -35,10 +35,10 @@ const Settings = ({show, setShow, appState, setAppState}) => {
                     <DropdownButton 
                         variant="primary" 
                         id="dropdown-basic-button" 
-                        title={settingsMap.playAgainst[settings.playAgainst]}>
-                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 0})}>{settingsMap.playAgainst[0]}</Dropdown.Item>
-                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 1})}>{settingsMap.playAgainst[1]}</Dropdown.Item>
-                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 2})}>{settingsMap.playAgainst[2]}</Dropdown.Item>
+                        title={settingsMap.playAgainst[settings.playAgainst].name}>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 0})}>{settingsMap.playAgainst[0].name}</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 1})}>{settingsMap.playAgainst[1].name}</Dropdown.Item>
+                        <Dropdown.Item as="button" onClick={() => setSettings({...settings, playAgainst: 2})}>{settingsMap.playAgainst[2].name}</Dropdown.Item>
                     </DropdownButton>
                 </div>
                 <div className="setting-row">

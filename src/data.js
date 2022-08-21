@@ -68,9 +68,18 @@ export const getAllQuads = numberArray => {
 
 export const settingsMap = {
     playAgainst: {
-        0: 'Human (local)',
-        1: 'Computer - Easy',
-        2: 'Computer - Hard',
+        0: {
+            name: 'Human (local)',
+            emoji: '👤',
+        },
+        1: {
+            name: 'Computer - Easy',
+            emoji: '🤖',
+        },
+        2: {
+            name: 'Computer - Hard',
+            emoji: '🤖⚡️',
+        },
     },
     gridLayout: {
         0: 'Classic',

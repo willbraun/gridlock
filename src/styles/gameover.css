@@ -23,6 +23,7 @@
 }
 
 .game-over.draw button {
+	color: #000;
 	background-color: var(--purple);
 	filter: brightness(125%);
 }
