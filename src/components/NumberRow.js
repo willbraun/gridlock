@@ -4,7 +4,14 @@ import './../styles/numberrow.css';
 const NumberRow = ({appState, setAppState, number, multipliers}) => {
     
     const selectMultiplier = multiplier => {
-        setAppState({...appState, selected: number * multiplier, selectedRow: number, selectedMultiplier: multiplier, selectedRow2: null, selectedMultiplier2: null})
+        setAppState({
+            ...appState, 
+            selected: number * multiplier, 
+            selectedRow: number, 
+            selectedMultiplier: multiplier, 
+            selectedRow2: null, 
+            selectedMultiplier2: null,
+        })
     }
 
     const bothRows = !!appState.selectedMultiplier && !!appState.selectedMultiplier2;

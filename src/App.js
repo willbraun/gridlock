@@ -6,7 +6,7 @@ import './styles/header.css';
 import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
-import { numbers, getAllQuads } from './data';
+import { digits, numbers, getAllQuads } from './data';
 
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
@@ -27,13 +27,13 @@ function App() {
 		return settings.gridLayout === 0 ? numbers : shuffle(numbers);
 	}
 
-	const randomCompColor = () => {
+	const randomBool = () => {
 		return Math.random() > 0.5;
 	}
 	
 	const startGame = {
 		currentPlayer1: true,
-		isComputerRed: randomCompColor(),
+		isComputerRed: false,
 		isComputerThinking: false,
 		gridLayoutArray: getBoard(),
 		p1Squares: [],
@@ -51,12 +51,9 @@ function App() {
 	
 	const [state, setState] = useState(startGame);	
 
-	useEffect(() => {
-		setState(startGame);
-	}, [state.settings.gridLayout]);
-
 	const isFirstTurn = !state.num1;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
+	const isComputerPlayer = state.settings.playAgainst > 0;
 	const isWin = state.winningQuad.length > 0;
 
 	const isSingleDigitInt = num => {
@@ -95,7 +92,7 @@ function App() {
 
 	const selectSquare = squareNum => {
 		const calc1 = squareNum/state.num1;
-		const calc2 = squareNum/state.num2
+		const calc2 = squareNum/state.num2;
 
 		const multiplier1 = isSingleDigitInt(calc1) ? calc1 : null;
 		const multiplier2 = isSingleDigitInt(calc2) ? calc2 : null;
@@ -139,9 +136,10 @@ function App() {
 
 	const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
 
-	const confirm = () => {
+	const confirm = (num, mult) => {
+		console.log('confirm');
 		const newList = state[playerArray];
-		newList.push(state.selected);
+		newList.push(num * mult);
 
 		const winningQuad = checkForWin(newList);
 
@@ -150,35 +148,79 @@ function App() {
 				...state,
 				winningQuad: winningQuad, 
 			})
+			return;
 		}
 		else {
-			const persistingNumState = Object.entries(state).find(entry => entry[1] === state.selectedRow)[0];
+			const persistingNumState = isFirstTurn 
+				? 'num1'
+				: Object.entries(state).find(entry => entry[1] === num)[0];
 			const newNumState = persistingNumState === 'num1' ? 'num2' : 'num1';
-	
+
 			setState({
 				...state,
 				[playerArray]: newList,
-				[newNumState]: state.selectedMultiplier,
+				[persistingNumState]: num,
+				[newNumState]: mult,
 				selected: null,
 				selectedRow: null,
 				selectedMultiplier: null,
 				currentPlayer1: !state.currentPlayer1,
+				isComputerThinking: isComputerPlayer && !state.isComputerThinking,
 			})
+
 		}
 	}
 
-	const firstConfirm = () => {
-		setState({
-			...state,
-			[playerArray]: [state.selected],
-			num1: state.selectedRow,
-			num2: state.selectedMultiplier,
-			selected: null,
-			selectedRow: null,
-			selectedMultiplier: null,
-			currentPlayer1: !state.currentPlayer1,
-		})
+	// const firstConfirm = () => {
+	// 	console.log('first confirm');
+	// 	setState({
+	// 		...state,
+	// 		[playerArray]: [state.selected],
+	// 		num1: state.selectedRow,
+	// 		num2: state.selectedMultiplier,
+	// 		selected: null,
+	// 		selectedRow: null,
+	// 		selectedMultiplier: null,
+	// 		currentPlayer1: !state.currentPlayer1,
+	// 		isComputerThinking: isComputerPlayer && !state.isComputerThinking,
+	// 	})
+	// }
+
+	const getComputerChoices = () => {
+		const choices1 = num1Multipliers.map(mult => Object.fromEntries([['num', state.num1], ['mult', mult]]));
+		const choices2 = num2Multipliers.map(mult => Object.fromEntries([['num', state.num2], ['mult', mult]]));
+		return [...choices1, ...choices2];
 	}
+
+	const computerRandomPlay = () => {
+		const choices = getComputerChoices();
+		const {num, mult} = choices[Math.floor(Math.random() * choices.length)];
+		console.log('random');
+		confirm(num, mult);
+	}
+
+	const randomDigit = () => {
+		return digits[Math.floor(Math.random() * 9)];
+	}
+
+	const computerRandomFirstPlay = () => {
+		console.log('random first');
+		confirm(randomDigit(), randomDigit());
+	}
+
+	useEffect(() => {
+		const thisBool = randomBool();
+		setState({...startGame, currentPlayer1: !thisBool, isComputerRed: thisBool});
+		if (state.isComputerRed && !state.currentPlayer1) {
+			computerRandomFirstPlay();
+		}
+	}, [state.settings.gridLayout, state.settings.playAgainst]);
+
+	useEffect(() => {
+		if (state.isComputerThinking) {
+			computerRandomPlay();
+		}
+	}, [state.isComputerThinking])
 
 	const gameBottom = (
 		<div className="bottom">
@@ -201,7 +243,7 @@ function App() {
 					<p>or</p>
 					<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 				</button>
-				: <button className="confirm" type="button" disabled={!state.selected} onClick={isFirstTurn ? firstConfirm : confirm}>{
+				: <button className="confirm" type="button" disabled={!state.selected} onClick={() => confirm(state.selectedRow, state.selectedMultiplier)}>{
 					!!state.selected 
 						? 'Confirm' 
 						:  isFirstTurn
