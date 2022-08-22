@@ -197,16 +197,27 @@ function App() {
 		setTimeout(() => confirm(randomDigit(), randomDigit(), false), 2000);
 	}
 
+	const computerMinimaxPlay = () => {
+		console.log('minimax choice');
+	}
+
 	useEffect(() => {
 		console.log('effect')
-		if (state.isComputerRed) {
+		const isComputerRed = randomBool();
+		setState({...state, currentPlayer1: !isComputerRed, isComputerRed: isComputerRed})
+		if (isComputerRed) {
 			computerRandomFirstPlay();
 		}
 	}, [state.settings]);
 
 	useEffect(() => {
 		if (!isFirstTurn && !state.currentPlayer1) {
-			computerRandomPlay();
+			if (state.settings.playAgainst === 1) {
+				computerRandomPlay();
+			}
+			else if (state.settings.playAgainst === 2) {
+				computerMinimaxPlay();
+			}
 		}
 	}, [state.currentPlayer1])
 
@@ -268,6 +279,7 @@ function App() {
 						isDraw={isDraw}
 						p1Color={p1Color}
 						p2Color={p2Color}
+						isComputerPlayer={isComputerPlayer}
 						/>
 					: 	gameBottom	
 				}
