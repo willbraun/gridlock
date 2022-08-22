@@ -32,9 +32,8 @@ function App() {
 	}
 	
 	const startGame = {
-		currentPlayer1: true,
-		isComputerRed: false,
-		isComputerThinking: false,
+		currentPlayer1: false, // for testing
+		isComputerRed: true, // for testing
 		gridLayoutArray: getBoard(),
 		p1Squares: [],
         p2Squares: [],
@@ -51,10 +50,16 @@ function App() {
 	
 	const [state, setState] = useState(startGame);	
 
-	const isFirstTurn = !state.num1;
+	const isFirstTurn = state.p1Squares.length === 0 && state.p2Squares.length === 0;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
 	const isComputerPlayer = state.settings.playAgainst > 0;
 	const isWin = state.winningQuad.length > 0;
+
+	const [p1Color, p2Color] = (
+        isComputerPlayer && state.isComputerRed 
+            ? ['blue', 'red']
+            : ['red', 'blue']
+    )
 
 	const isSingleDigitInt = num => {
 		return Number.isInteger(num) && num < 10;
@@ -136,7 +141,7 @@ function App() {
 
 	const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
 
-	const confirm = (num, mult) => {
+	const confirm = (num, mult, isHuman) => {
 		console.log('confirm');
 		const newList = state[playerArray];
 		newList.push(num * mult);
@@ -165,26 +170,9 @@ function App() {
 				selectedRow: null,
 				selectedMultiplier: null,
 				currentPlayer1: !state.currentPlayer1,
-				isComputerThinking: isComputerPlayer && !state.isComputerThinking,
 			})
-
 		}
 	}
-
-	// const firstConfirm = () => {
-	// 	console.log('first confirm');
-	// 	setState({
-	// 		...state,
-	// 		[playerArray]: [state.selected],
-	// 		num1: state.selectedRow,
-	// 		num2: state.selectedMultiplier,
-	// 		selected: null,
-	// 		selectedRow: null,
-	// 		selectedMultiplier: null,
-	// 		currentPlayer1: !state.currentPlayer1,
-	// 		isComputerThinking: isComputerPlayer && !state.isComputerThinking,
-	// 	})
-	// }
 
 	const getComputerChoices = () => {
 		const choices1 = num1Multipliers.map(mult => Object.fromEntries([['num', state.num1], ['mult', mult]]));
@@ -193,10 +181,11 @@ function App() {
 	}
 
 	const computerRandomPlay = () => {
-		const choices = getComputerChoices();
-		const {num, mult} = choices[Math.floor(Math.random() * choices.length)];
 		console.log('random');
-		confirm(num, mult);
+		const choices = getComputerChoices();
+		console.log(choices)
+		const {num, mult} = choices[Math.floor(Math.random() * choices.length)];
+		setTimeout(() => confirm(num, mult, false), 2000);
 	}
 
 	const randomDigit = () => {
@@ -205,22 +194,21 @@ function App() {
 
 	const computerRandomFirstPlay = () => {
 		console.log('random first');
-		confirm(randomDigit(), randomDigit());
+		setTimeout(() => confirm(randomDigit(), randomDigit(), false), 2000);
 	}
 
 	useEffect(() => {
-		const thisBool = randomBool();
-		setState({...startGame, currentPlayer1: !thisBool, isComputerRed: thisBool});
-		if (state.isComputerRed && !state.currentPlayer1) {
+		console.log('effect')
+		if (state.isComputerRed) {
 			computerRandomFirstPlay();
 		}
-	}, [state.settings.gridLayout, state.settings.playAgainst]);
+	}, [state.settings]);
 
 	useEffect(() => {
-		if (state.isComputerThinking) {
+		if (!isFirstTurn && !state.currentPlayer1) {
 			computerRandomPlay();
 		}
-	}, [state.isComputerThinking])
+	}, [state.currentPlayer1])
 
 	const gameBottom = (
 		<div className="bottom">
@@ -243,7 +231,7 @@ function App() {
 					<p>or</p>
 					<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 				</button>
-				: <button className="confirm" type="button" disabled={!state.selected} onClick={() => confirm(state.selectedRow, state.selectedMultiplier)}>{
+				: <button className="confirm" type="button" disabled={!state.selected} onClick={() => confirm(state.selectedRow, state.selectedMultiplier, true)}>{
 					!!state.selected 
 						? 'Confirm' 
 						:  isFirstTurn
@@ -268,6 +256,8 @@ function App() {
 					setAppState={setState} 
 					options={options} 
 					selectSquare={selectSquare}
+					p1Color={p1Color}
+					p2Color={p2Color}
 				/>
 				{isWin || isDraw
 					? 	<GameOver 
@@ -276,6 +266,8 @@ function App() {
 						startGame={startGame}
 						isWin={isWin}
 						isDraw={isDraw}
+						p1Color={p1Color}
+						p2Color={p2Color}
 						/>
 					: 	gameBottom	
 				}

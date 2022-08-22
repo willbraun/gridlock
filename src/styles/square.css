@@ -13,11 +13,11 @@
     margin: 0;
 }
 
-.p1Square {
+.redSquare {
     background-color: var(--red);
 }
 
-.p2Square {
+.blueSquare {
     background-color: var(--blue);
 }
 

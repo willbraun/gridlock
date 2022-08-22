@@ -9,11 +9,11 @@
     aspect-ratio: 1;
 }
 
-.grid-border.p1 {
+.grid-border.red {
     border-color: var(--red);
 }
 
-.grid-border.p2 {
+.grid-border.blue {
     border-color: var(--blue);
 }
 
