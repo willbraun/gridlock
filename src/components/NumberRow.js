@@ -1,7 +1,7 @@
 import NumberCircle from "./NumberCircle";
 import './../styles/numberrow.css';
 
-const NumberRow = ({appState, setAppState, number, multipliers}) => {
+const NumberRow = ({appState, setAppState, number, multipliers, isComputerTurn}) => {
     
     const selectMultiplier = multiplier => {
         setAppState({
@@ -41,7 +41,7 @@ const NumberRow = ({appState, setAppState, number, multipliers}) => {
     }
 
     
-    const multipliersList = multipliers.map(mult => <NumberCircle key={mult} value={mult} selectFunction={selectMultiplier} selected={isSelectedMultiplier(mult)} disabled={false}/>)
+    const multipliersList = multipliers.map(mult => <NumberCircle key={mult} value={mult} selectFunction={selectMultiplier} selected={isSelectedMultiplier(mult)} disabled={isComputerTurn}/>)
 
     return (
         <div className="number-row">

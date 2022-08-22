@@ -1,7 +1,7 @@
 import Square from "./Square";
 import './../styles/grid.css';
 
-const Grid = ({appState, setAppState, options, selectSquare, p1Color, p2Color}) => {
+const Grid = ({appState, setAppState, options, selectSquare, p1Color, p2Color, isComputerTurn}) => {
 
     const getSquareType = number => {
         let result = [];
@@ -20,7 +20,12 @@ const Grid = ({appState, setAppState, options, selectSquare, p1Color, p2Color}) 
             result.push('selectedSquare');
         }
         else if (options.includes(number)) {
-            result.push('optionSquare');
+            if (isComputerTurn) {
+                result.push('compOptionSquare');
+            }
+            else {
+                result.push('optionSquare');
+            }
         }
         else {
             result.push('notOptionSquare');
@@ -36,19 +41,6 @@ const Grid = ({appState, setAppState, options, selectSquare, p1Color, p2Color}) 
 
     const borderColor = () => {
         return appState.currentPlayer1 ? p1Color : p2Color;
-
-
-        // if (isComputerPlayer) {
-        //     if (appState.isComputerRed === appState.currentPlayer1) {
-        //         return 'blue';
-        //     }
-        //     else {
-        //         return 'red';
-        //     }
-        // }
-        // else {
-        //     return appState.currentPlayer1 ? 'red' : 'blue';
-        // }
     }
 
     

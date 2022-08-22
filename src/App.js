@@ -27,13 +27,15 @@ function App() {
 		return settings.gridLayout === 0 ? numbers : shuffle(numbers);
 	}
 
-	const randomBool = () => {
+	const getRandomBool = () => {
 		return Math.random() > 0.5;
 	}
+
+	const p1Start = getRandomBool();
 	
 	const startGame = {
-		currentPlayer1: false, // for testing
-		isComputerRed: true, // for testing
+		currentPlayer1: p1Start,
+		isComputerRed: !p1Start,
 		gridLayoutArray: getBoard(),
 		p1Squares: [],
         p2Squares: [],
@@ -48,11 +50,12 @@ function App() {
 		settings: settings,
 	}
 	
-	const [state, setState] = useState(startGame);	
+	const [state, setState] = useState(startGame);
 
 	const isFirstTurn = state.p1Squares.length === 0 && state.p2Squares.length === 0;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
 	const isComputerPlayer = state.settings.playAgainst > 0;
+	const isComputerTurn = isComputerPlayer && !state.currentPlayer1;
 	const isWin = state.winningQuad.length > 0;
 
 	const [p1Color, p2Color] = (
@@ -203,12 +206,14 @@ function App() {
 
 	useEffect(() => {
 		console.log('effect')
-		const isComputerRed = randomBool();
-		setState({...state, currentPlayer1: !isComputerRed, isComputerRed: isComputerRed})
-		if (isComputerRed) {
-			computerRandomFirstPlay();
+		if (isComputerPlayer) {
+			const p1Start = getRandomBool();
+			setState({...startGame, currentPlayer1: p1Start, isComputerRed: !p1Start})
+			if (!p1Start) {
+				computerRandomFirstPlay();
+			}
 		}
-	}, [state.settings]);
+	}, [state.settings.gridLayout, state.settings.playAgainst]);
 
 	useEffect(() => {
 		if (!isFirstTurn && !state.currentPlayer1) {
@@ -233,6 +238,7 @@ function App() {
 						setAppState={setState} 
 						num1Multipliers={num1Multipliers} 
 						num2Multipliers={num2Multipliers}
+						isComputerTurn={isComputerTurn}
 					/>
 			}
 			{isBothRows 
@@ -269,6 +275,7 @@ function App() {
 					selectSquare={selectSquare}
 					p1Color={p1Color}
 					p2Color={p2Color}
+					isComputerTurn={isComputerTurn}
 				/>
 				{isWin || isDraw
 					? 	<GameOver 
