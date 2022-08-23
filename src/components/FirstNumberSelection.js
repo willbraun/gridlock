@@ -2,7 +2,7 @@ import NumberCircle from './NumberCircle';
 import { digits } from './../data';
 import './../styles/firstnumberselection.css';
 
-const FirstNumberSelection = ({appState, setAppState}) => {
+const FirstNumberSelection = ({appState, setAppState, isComputerTurn}) => {
 
     const selectFirstNumbers = (number, property) => {
         if (property === 'selectedRow' && !!appState.selectedMultiplier) {
@@ -24,6 +24,7 @@ const FirstNumberSelection = ({appState, setAppState}) => {
             value={digit} 
             selectFunction={() => selectFirstNumbers(digit, stateProperty)}
             selected={appState[stateProperty] === digit ? 1 : 0}
+            disabled={isComputerTurn}
             />
         ));
     

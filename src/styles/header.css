@@ -21,6 +21,11 @@
     margin-left: auto;
     padding: 0.1rem 0.3rem;
     border-radius: 0.5rem;
+    transition: 0.1s;
+}
+
+.vs-icon.computer-turn {
+    transform: scale(1.25);
 }
 
 .gear-icon {

@@ -31,11 +31,11 @@ function App() {
 		return Math.random() > 0.5;
 	}
 
-	const p1Start = getRandomBool();
+	// const p1Start = getRandomBool();
 	
 	const startGame = {
-		currentPlayer1: p1Start,
-		isComputerRed: !p1Start,
+		currentPlayer1: null,
+		isComputerRed: null,
 		gridLayoutArray: getBoard(),
 		p1Squares: [],
         p2Squares: [],
@@ -144,8 +144,7 @@ function App() {
 
 	const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
 
-	const confirm = (num, mult, isHuman) => {
-		console.log('confirm');
+	const confirm = (num, mult) => {
 		const newList = state[playerArray];
 		newList.push(num * mult);
 
@@ -186,9 +185,8 @@ function App() {
 	const computerRandomPlay = () => {
 		console.log('random');
 		const choices = getComputerChoices();
-		console.log(choices)
 		const {num, mult} = choices[Math.floor(Math.random() * choices.length)];
-		setTimeout(() => confirm(num, mult, false), 2000);
+		setTimeout(() => confirm(num, mult), 2000);
 	}
 
 	const randomDigit = () => {
@@ -196,8 +194,7 @@ function App() {
 	}
 
 	const computerRandomFirstPlay = () => {
-		console.log('random first');
-		setTimeout(() => confirm(randomDigit(), randomDigit(), false), 2000);
+		setTimeout(() => confirm(randomDigit(), randomDigit()), 2000);
 	}
 
 	const computerMinimaxPlay = () => {
@@ -205,13 +202,15 @@ function App() {
 	}
 
 	useEffect(() => {
-		console.log('effect')
 		if (isComputerPlayer) {
 			const p1Start = getRandomBool();
 			setState({...startGame, currentPlayer1: p1Start, isComputerRed: !p1Start})
 			if (!p1Start) {
 				computerRandomFirstPlay();
 			}
+		}
+		else {
+			setState({...startGame, currentPlayer1: true, isComputerRed: false})
 		}
 	}, [state.settings.gridLayout, state.settings.playAgainst]);
 
@@ -232,6 +231,7 @@ function App() {
 				? 	<FirstNumberSelection 
 						appState={state} 
 						setAppState={setState}
+						isComputerTurn={isComputerTurn}
 					/>
 				:   <NumberSelection 
 						appState={state} 
@@ -248,7 +248,7 @@ function App() {
 					<p>or</p>
 					<div className="confirm-select-circle">{state.selectedMultiplier2}</div>
 				</button>
-				: <button className="confirm" type="button" disabled={!state.selected} onClick={() => confirm(state.selectedRow, state.selectedMultiplier, true)}>{
+				: <button className="confirm" type="button" disabled={!state.selected} onClick={() => confirm(state.selectedRow, state.selectedMultiplier)}>{
 					!!state.selected 
 						? 'Confirm' 
 						:  isFirstTurn
@@ -267,6 +267,8 @@ function App() {
 					appState={state} 
 					setAppState={setState}
 					blankSettings={blankSettings}
+					isComputerPlayer={isComputerPlayer}
+					isComputerTurn={isComputerTurn}
 				/>
 				<Grid 
 					appState={state} 
