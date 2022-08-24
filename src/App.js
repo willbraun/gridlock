@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
@@ -7,7 +7,6 @@ import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
 import { numbers, digits, pointValues, getAllQuads } from './data';
-import { flushSync } from 'react-dom';
 
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
@@ -240,7 +239,7 @@ function App() {
 		if (isComputerPlayer && isFirstTurn && state.isComputerRed) {
 			computerRandomFirstPlay();
 		}
-	}, [state.isComputerRed])
+	}, [state.isComputerRed, isFirstTurn])
 
 	useEffect(() => {
 		if (!isFirstTurn && !state.currentPlayer1) {
@@ -252,12 +251,6 @@ function App() {
 			}
 		}
 	}, [state.currentPlayer1])
-
-	// useEffect(() => {
-	// 	if (state.winningQuad.length === 0) {
-	// 		startNewGame();
-	// 	}
-	// }, [state.winningQuad])
 
 	const gameBottom = (
 		<div className="bottom">
