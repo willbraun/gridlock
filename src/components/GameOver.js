@@ -5,7 +5,6 @@ const GameOver = ({appState, setAppState, startGame, isWin, isDraw, p1Color, p2C
     const winnerCapital = winner.slice(0, 1).toUpperCase() + winner.slice(1);
 
     const getMessage = () => {
-        console.log(isComputerPlayer)
         if (isComputerPlayer) {
             if (winner === p1Color) {
                 return 'You win! 🥳';

@@ -6,7 +6,7 @@ import './styles/header.css';
 import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
-import { digits, numbers, getAllQuads } from './data';
+import { numbers, digits, pointValues, getAllQuads } from './data';
 
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
@@ -30,8 +30,6 @@ function App() {
 	const getRandomBool = () => {
 		return Math.random() > 0.5;
 	}
-
-	// const p1Start = getRandomBool();
 	
 	const startGame = {
 		currentPlayer1: null,
@@ -137,8 +135,9 @@ function App() {
 		}
 	}
 
+	const winningQuads = getAllQuads(state.gridLayoutArray);
+
 	const checkForWin = array => {
-		const winningQuads = getAllQuads(state.gridLayoutArray);
 		return winningQuads.find(quad => quad.every(num => array.includes(num)));
 	}
 
@@ -183,7 +182,6 @@ function App() {
 	}
 
 	const computerRandomPlay = () => {
-		console.log('random');
 		const choices = getComputerChoices();
 		const {num, mult} = choices[Math.floor(Math.random() * choices.length)];
 		setTimeout(() => confirm(num, mult), 2000);
@@ -197,12 +195,34 @@ function App() {
 		setTimeout(() => confirm(randomDigit(), randomDigit()), 2000);
 	}
 
+	const countColors = (quad, playerSquares) => {
+		return quad.filter(x => playerSquares.includes(x)).length;
+	}
+
+	const evaluateQuad = (quad, humanSquares, compSquares) => {
+		const humanCount = countColors(quad, humanSquares);
+		const compCount = countColors(quad, compSquares);
+		if (humanCount === 0) {
+			return pointValues[compCount];
+		}
+		else if (compCount === 0) {
+			return -pointValues[humanCount];
+		}
+		else {
+			return 0;
+		}
+	}
+
+	const evaluateBoard = (humanSquares, compSquares) => {
+		return winningQuads.map(quad => evaluateQuad(quad, humanSquares, compSquares)).reduce((a, b) => a + b, 0);
+	}
+
 	const computerMinimaxPlay = () => {
 		console.log('minimax choice');
 	}
 
 	useEffect(() => {
-		if (isComputerPlayer) {
+		if (isComputerPlayer && state.winningQuad.length === 0) {
 			const p1Start = getRandomBool();
 			setState({...startGame, currentPlayer1: p1Start, isComputerRed: !p1Start})
 			if (!p1Start) {

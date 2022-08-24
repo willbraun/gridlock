@@ -9,6 +9,8 @@ export const numbers = [
 
 export const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+export const pointValues = [0, 1, 3, 9, 1000];
+
 const getHorizontalQuads = numberArray => {
     const result = [];
     let position;
