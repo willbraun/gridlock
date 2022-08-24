@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
@@ -7,6 +7,7 @@ import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
 import { numbers, digits, pointValues, getAllQuads } from './data';
+import { flushSync } from 'react-dom';
 
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
@@ -221,18 +222,25 @@ function App() {
 		console.log('minimax choice');
 	}
 
-	useEffect(() => {
-		if (isComputerPlayer && state.winningQuad.length === 0) {
+	const startNewGame = () => {
+		if (isComputerPlayer) {
 			const p1Start = getRandomBool();
 			setState({...startGame, currentPlayer1: p1Start, isComputerRed: !p1Start})
-			if (!p1Start) {
-				computerRandomFirstPlay();
-			}
 		}
 		else {
 			setState({...startGame, currentPlayer1: true, isComputerRed: false})
 		}
+	}
+
+	useEffect(() => {
+		startNewGame();
 	}, [state.settings.gridLayout, state.settings.playAgainst]);
+
+	useEffect(() => {
+		if (isComputerPlayer && isFirstTurn && state.isComputerRed) {
+			computerRandomFirstPlay();
+		}
+	}, [state.isComputerRed])
 
 	useEffect(() => {
 		if (!isFirstTurn && !state.currentPlayer1) {
@@ -244,6 +252,12 @@ function App() {
 			}
 		}
 	}, [state.currentPlayer1])
+
+	// useEffect(() => {
+	// 	if (state.winningQuad.length === 0) {
+	// 		startNewGame();
+	// 	}
+	// }, [state.winningQuad])
 
 	const gameBottom = (
 		<div className="bottom">
@@ -303,12 +317,12 @@ function App() {
 					? 	<GameOver 
 						appState={state} 
 						setAppState={setState}
-						startGame={startGame}
 						isWin={isWin}
 						isDraw={isDraw}
 						p1Color={p1Color}
 						p2Color={p2Color}
 						isComputerPlayer={isComputerPlayer}
+						startNewGame={startNewGame}
 						/>
 					: 	gameBottom	
 				}

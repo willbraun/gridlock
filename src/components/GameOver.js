@@ -1,6 +1,6 @@
 import './../styles/gameover.css';
 
-const GameOver = ({appState, setAppState, startGame, isWin, isDraw, p1Color, p2Color, isComputerPlayer}) => {
+const GameOver = ({appState, setAppState, isWin, isDraw, p1Color, p2Color, isComputerPlayer, startNewGame}) => {
     const winner = appState.currentPlayer1 ? p1Color : p2Color;
     const winnerCapital = winner.slice(0, 1).toUpperCase() + winner.slice(1);
 
@@ -17,10 +17,6 @@ const GameOver = ({appState, setAppState, startGame, isWin, isDraw, p1Color, p2C
             return `${winnerCapital} wins!`;
         }
     } 
-    
-    const resetGame = () => {
-        setAppState(startGame);
-    }
 
     return (
         <div className={`game-over ${isWin && winner.toLowerCase()} ${isDraw && !isWin && 'draw'}`}>
@@ -30,7 +26,7 @@ const GameOver = ({appState, setAppState, startGame, isWin, isDraw, p1Color, p2C
                     ?   <h2>Draw</h2>
                     :   null
             }
-            <button className="play-again" type="button" onClick={resetGame}>Play again</button>
+            <button className="play-again" type="button" onClick={startNewGame}>Play again</button>
         </div>
     )
 }
