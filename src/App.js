@@ -6,9 +6,13 @@ import './styles/header.css';
 import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
-import { numbers, digits, pointValues, getAllQuads } from './data';
+import { numbers, digits, getAllQuads } from './data';
+import { isSingleDigitInt, getMultipliers } from './helpers';
+import { testTree } from './decision-tree';
 
 function App() {
+	testTree();
+
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
 	const blankSettings = {
 		playAgainst: 0,
@@ -62,29 +66,8 @@ function App() {
             : ['red', 'blue']
     )
 
-	const isSingleDigitInt = num => {
-		return Number.isInteger(num) && num < 10;
-	}
-
-	const getAvailableSqaures = () => {
-        const taken = [...state.p1Squares, ...state.p2Squares];
-        let result = [...numbers];
-
-        taken.forEach(num => {
-            const index = result.findIndex(resultNum => resultNum === num);
-            result.splice(index, 1);
-        })
-
-        return result;
-    }
-
-    const getMultipliers = number => {
-        const available = getAvailableSqaures();
-        return available.map(num => num/number).filter(num => isSingleDigitInt(num));
-    }
-
-	const num1Multipliers = getMultipliers(state.num1);
-	const num2Multipliers = getMultipliers(state.num2);
+	const num1Multipliers = getMultipliers(state.num1, state.p1Squares, state.p2Squares);
+	const num2Multipliers = getMultipliers(state.num2, state.p1Squares, state.p2Squares);
 	const isDraw = num1Multipliers.length === 0 && num2Multipliers.length === 0 && !!state.num1;
 
 	const getOptionSquares = () => {
@@ -193,28 +176,6 @@ function App() {
 
 	const computerRandomFirstPlay = () => {
 		setTimeout(() => confirm(randomDigit(), randomDigit()), 2000);
-	}
-
-	const countColors = (quad, playerSquares) => {
-		return quad.filter(x => playerSquares.includes(x)).length;
-	}
-
-	const evaluateQuad = (quad, humanSquares, compSquares) => {
-		const humanCount = countColors(quad, humanSquares);
-		const compCount = countColors(quad, compSquares);
-		if (humanCount === 0) {
-			return pointValues[compCount];
-		}
-		else if (compCount === 0) {
-			return -pointValues[humanCount];
-		}
-		else {
-			return 0;
-		}
-	}
-
-	const evaluateBoard = (humanSquares, compSquares) => {
-		return winningQuads.map(quad => evaluateQuad(quad, humanSquares, compSquares)).reduce((a, b) => a + b, 0);
 	}
 
 	const computerMinimaxPlay = () => {

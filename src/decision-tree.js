@@ -1,4 +1,4 @@
-// import { getMultipliers } from './App';
+import { getMultipliers } from './helpers';
 
 class Node {
     constructor(data, humanSquares, compSquares, num1, num2, value = null) {
@@ -8,8 +8,8 @@ class Node {
         this.compSquares = compSquares;
         this.num1 = num1;
         this.num2 = num2;
-        // this.num1Multipliers = getMultipliers(this.num1);
-        // this.num2Multipliers = getMultipliers(this.num2);
+        this.num1Multipliers = getMultipliers(this.num1, this.humanSquares, this.compSquares);
+        this.num2Multipliers = getMultipliers(this.num2, this.humanSquares, this.compSquares);
         this.value = value;
         this.children = [];
     }
@@ -30,6 +30,8 @@ class Node {
 // when creating nodes at max depth, include value
 // to include value, take humanSquares and compSquares and feed to evaluateBoard
 
+// if performance is a problem, try deleting humanSquares, compSquares, nums, and multipliers from the parent after the children are created so each node isn't so big
+
 
 class Tree {
     constructor() {
@@ -45,7 +47,7 @@ class Tree {
 
 }
 
-(function test() {
-    const testNode = new Node(1, [1, 2, 3], [4, 5, 6], 4, 9);
+export function testTree() {
+    const testNode = new Node(1, [1, 2, 3], [4, 5, 36], 4, 9);
     console.log(testNode);
-})()
+}
