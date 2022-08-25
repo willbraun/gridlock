@@ -21,6 +21,12 @@ export const getMultipliers = (number, p1Squares, p2Squares) => {
     return available.map(num => num/number).filter(num => isSingleDigitInt(num));
 }
 
+export const getComputerChoices = (num1, num2, num1Multipliers, num2Multipliers) => {
+    const choices1 = num1Multipliers.map(mult => Object.fromEntries([['num', num1], ['mult', mult]]));
+    const choices2 = num2Multipliers.map(mult => Object.fromEntries([['num', num2], ['mult', mult]]));
+    return [...choices1, ...choices2];
+}
+
 const countColors = (quad, playerSquares) => {
     return quad.filter(x => playerSquares.includes(x)).length;
 }

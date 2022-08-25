@@ -7,7 +7,7 @@ import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
 import { numbers, digits, getAllQuads } from './data';
-import { isSingleDigitInt, getMultipliers } from './helpers';
+import { isSingleDigitInt, getMultipliers, getComputerChoices } from './helpers';
 import { testTree } from './decision-tree';
 
 function App() {
@@ -158,14 +158,8 @@ function App() {
 		}
 	}
 
-	const getComputerChoices = () => {
-		const choices1 = num1Multipliers.map(mult => Object.fromEntries([['num', state.num1], ['mult', mult]]));
-		const choices2 = num2Multipliers.map(mult => Object.fromEntries([['num', state.num2], ['mult', mult]]));
-		return [...choices1, ...choices2];
-	}
-
 	const computerRandomPlay = () => {
-		const choices = getComputerChoices();
+		const choices = getComputerChoices(state.num1, state.num2, num1Multipliers, num2Multipliers);
 		const {num, mult} = choices[Math.floor(Math.random() * choices.length)];
 		setTimeout(() => confirm(num, mult), 2000);
 	}
