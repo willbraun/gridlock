@@ -1,9 +1,9 @@
 import { getMultipliers, getComputerChoices } from './helpers';
 
 class Node {
-    constructor({id, humanSquares, compSquares, num1, num2, value = null} = {}) {
+    constructor({id, compTurn, humanSquares, compSquares, num1, num2, value = null} = {}) {
         this.id = id;
-        this.compTurn = true;
+        this.compTurn = compTurn;
         this.humanSquares = humanSquares;
         this.compSquares = compSquares;
         this.num1 = num1;
@@ -38,8 +38,8 @@ class Tree {
         this.root = null;
     }
 
-    add({id, toNodeId, humanSquares, compSquares, num1, num2, value} = {}) {
-        const node = new Node({id, humanSquares, compSquares, num1, num2, value});
+    add({id, compTurn, toNodeId, humanSquares, compSquares, num1, num2, value} = {}) {
+        const node = new Node({id, compTurn, humanSquares, compSquares, num1, num2, value});
 
         const parent = toNodeId ? this.findBFS(toNodeId) : null;
 
@@ -86,7 +86,6 @@ class Tree {
 }
 
 const getNodeChoices = node => {
-    console.log(node.humanSquares)
     const num1Multipliers = getMultipliers(node.num1, node.humanSquares, node.compSquares);
     const num2Multipliers = getMultipliers(node.num2, node.humanSquares, node.compSquares);
     return getComputerChoices(node.num1, node.num2, num1Multipliers, num2Multipliers);
@@ -98,12 +97,15 @@ const getChildNodes = (node, currentId) => {
     const [playerSquares, otherPlayerSquares] = node.compTurn ? ['compSquares', 'humanSquares'] : ['humanSquares', 'compSquares'];
     const choices = getNodeChoices(node);
 
+    console.log(node);
+
     choices.forEach(choice => {
         const newArray = [...node[playerSquares]]
         newArray.push(choice.num * choice.mult);
 
         const newNode = new Node({
             id: id,
+            compTurn: !node.compTurn,
             toNodeId: node.id,
             [playerSquares]: newArray,
             [otherPlayerSquares]: node[otherPlayerSquares],
@@ -118,15 +120,14 @@ const getChildNodes = (node, currentId) => {
     return result;
 }
 
-const createTree = (humanSquares, compSquares, num1, num2, depth) => {
+const createTree = (compTurn, humanSquares, compSquares, num1, num2, depth) => {
     const tree = new Tree();
     const currentId = 1;
 
     // each iteration of findChildren, update currentId to be itself += results.length
 
-    // function to get children from a node as an array of Node objects
-    // Add them to the tree with forEach
-    // after all children have had their children found, go to next level in depth and run again with 1 less depth, and flip compTurn
+    // ForEach nodeA, getChildNodes and add to the tree, then move to sibling of nodeA
+    // after all nodes at a given depth have had their children found, go to next level in depth to find their children
     // stop after depth = 0
 }
 
@@ -135,9 +136,12 @@ export const testTree = () => {
 
     tree.add({
         id: 1,
+        compTurn: true,
         humanSquares: [28],
         compSquares: [45],
         num1: 4,
         num2: 7,
     });
+
+    console.log(getChildNodes(tree.root, 1))
 }
