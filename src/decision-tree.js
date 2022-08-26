@@ -132,6 +132,7 @@ const createTree = (humanSquares, compSquares, num1, num2, depth) => {
 
     getChildNodes(tree, depth, incrementNodeId, getNodeId);
     console.log(tree);
+    // console.log(JSON.stringify(tree));
 }
 
 export const testTree = () => {
