@@ -2,14 +2,13 @@ import { numbers } from './data';
 import { getMultipliers, getComputerChoices, evaluateBoard } from './helpers';
 
 class Node {
-    constructor({id, compTurn, humanSquares, compSquares, num1, num2, value = null} = {}) {
+    constructor({id, compTurn, humanSquares, compSquares, num1, num2} = {}) {
         this.id = id;
         this.compTurn = compTurn;
         this.humanSquares = humanSquares;
         this.compSquares = compSquares;
         this.num1 = num1;
         this.num2 = num2;
-        this.value = value;
         this.children = [];
     }
 }
@@ -124,6 +123,37 @@ const getChildNodes = (node, depth, incrementNodeId, getNodeId, gridLayout) => {
     node.children.forEach(child => getChildNodes(child, depth - 1, incrementNodeId, getNodeId, gridLayout));
 }
 
+const minimax = (node, depth, isMaxPlayer) => {
+    if (depth === 0 || node.children.length === 0) {
+        return node.value;
+    }
+
+    let bestValue, value;
+
+    if (isMaxPlayer) {
+        bestValue = Number.NEGATIVE_INFINITY;
+
+        node.children.forEach(child => {
+            value = minimax(child, depth - 1, false);
+            bestValue = Math.max(value, bestValue);
+        })
+
+        node.value = bestValue;
+        return bestValue;
+    }
+    else {
+        bestValue = Number.POSITIVE_INFINITY;
+
+        node.children.forEach(child => {
+            value = minimax(child, depth - 1, true);
+            bestValue = Math.min(value, bestValue);
+        })
+
+        node.value = bestValue;
+        return bestValue;
+    }
+}
+
 const createTree = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
     const tree = new Node({id: 1, compTurn: true, humanSquares, compSquares, num1, num2});
     let nodeId = 2;
@@ -132,10 +162,16 @@ const createTree = (humanSquares, compSquares, num1, num2, gridLayout, depth) =>
     const getNodeId = () => nodeId;
 
     getChildNodes(tree, depth, incrementNodeId, getNodeId, gridLayout);
-    console.log(tree);
-    // console.log(JSON.stringify(tree));
+    return tree;
+}
+
+const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
+    const tree = createTree(humanSquares, compSquares, num1, num2, gridLayout, depth);
+    minimax(tree, depth, true);
+    const choice = tree.children.sort((a, b) => b.value - a.value)[0];
+    // console.log(choice);
 }
 
 export const testTree = (array) => {
-    createTree([28], [45], 4, 7, array, 2);
+    computerMinimaxPlay([28], [45], 4, 7, array, 2);
 }

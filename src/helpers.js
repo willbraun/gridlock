@@ -102,13 +102,7 @@ const evaluateQuad = (quad, humanSquares, compSquares) => {
     }
 }
 
-// temporary note - to be used with winningQuads variable in App currently
 export const evaluateBoard = (gridLayout, humanSquares, compSquares) => {
     const winningQuads = getAllQuads(gridLayout);
     return winningQuads.map(quad => evaluateQuad(quad, humanSquares, compSquares)).reduce((a, b) => a + b, 0);
-}
-
-
-const computerMinimaxPlay = () => {
-    console.log('minimax choice');
 }
