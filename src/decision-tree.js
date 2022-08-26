@@ -1,4 +1,5 @@
-import { getMultipliers, getComputerChoices } from './helpers';
+import { numbers } from './data';
+import { getMultipliers, getComputerChoices, evaluateBoard } from './helpers';
 
 class Node {
     constructor({id, compTurn, humanSquares, compSquares, num1, num2, value = null} = {}) {
@@ -91,9 +92,9 @@ const getNodeChoices = node => {
     return getComputerChoices(node.num1, node.num2, num1Multipliers, num2Multipliers);
 }
 
-const getChildNodes = (node, depth, incrementNodeId, getNodeId) => {
+const getChildNodes = (node, depth, incrementNodeId, getNodeId, gridLayout) => {
     if (depth === 0) {
-        // run evaluation function to set value on each node at this depth
+        node.value = evaluateBoard(gridLayout, node.humanSquares, node.compSquares);
         return;
     }
     
@@ -120,21 +121,21 @@ const getChildNodes = (node, depth, incrementNodeId, getNodeId) => {
     })
 
     node.children.push(...childNodes);
-    node.children.forEach(child => getChildNodes(child, depth - 1, incrementNodeId, getNodeId));
+    node.children.forEach(child => getChildNodes(child, depth - 1, incrementNodeId, getNodeId, gridLayout));
 }
 
-const createTree = (humanSquares, compSquares, num1, num2, depth) => {
+const createTree = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
     const tree = new Node({id: 1, compTurn: true, humanSquares, compSquares, num1, num2});
     let nodeId = 2;
 
     const incrementNodeId = () => nodeId++;
     const getNodeId = () => nodeId;
 
-    getChildNodes(tree, depth, incrementNodeId, getNodeId);
+    getChildNodes(tree, depth, incrementNodeId, getNodeId, gridLayout);
     console.log(tree);
     // console.log(JSON.stringify(tree));
 }
 
-export const testTree = () => {
-    createTree([28], [45], 4, 7, 4);
+export const testTree = (array) => {
+    createTree([28], [45], 4, 7, array, 2);
 }

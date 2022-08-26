@@ -27,6 +27,63 @@ export const getComputerChoices = (num1, num2, num1Multipliers, num2Multipliers)
     return [...choices1, ...choices2];
 }
 
+const getHorizontalQuads = numberArray => {
+    const result = [];
+    let position;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 3; j++) {
+            position = (6 * i) + j;
+            result.push(numberArray.slice(position, position + 4));
+        }
+    }
+    return result;
+}
+
+const getVerticalQuads = numberArray => {
+    const result = [];
+    let position;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 3; j++) {
+            position = i + (6 * j);
+            result.push([numberArray[position], numberArray[position + 6], numberArray[position + 12], numberArray[position + 18]]);
+        }
+    }
+    return result;
+}
+
+const getAscDiagonalQuads = numberArray => {
+    const result = [];
+    let position;
+    for (let i = 3; i < 6; i++) {
+        for (let j = 0; j < 3; j++) {
+            position = (6 * i) + j;
+            result.push([numberArray[position], numberArray[position - 5], numberArray[position - 10], numberArray[position - 15]]);
+        }
+    }
+    return result;
+}
+
+const getDescDiagonalQuads = numberArray => {
+    const result = [];
+    let position;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            position = (6 * i) + j;
+            result.push([numberArray[position], numberArray[position + 7], numberArray[position + 14], numberArray[position + 21]]);
+        }
+    }
+    return result;
+}
+
+export const getAllQuads = numberArray => {
+    return [
+        ...getHorizontalQuads(numberArray),
+        ...getVerticalQuads(numberArray),
+        ...getAscDiagonalQuads(numberArray),
+        ...getDescDiagonalQuads(numberArray),
+    ]
+}
+
 const countColors = (quad, playerSquares) => {
     return quad.filter(x => playerSquares.includes(x)).length;
 }
@@ -46,7 +103,8 @@ const evaluateQuad = (quad, humanSquares, compSquares) => {
 }
 
 // temporary note - to be used with winningQuads variable in App currently
-export const evaluateBoard = (winningQuads, humanSquares, compSquares) => {
+export const evaluateBoard = (gridLayout, humanSquares, compSquares) => {
+    const winningQuads = getAllQuads(gridLayout);
     return winningQuads.map(quad => evaluateQuad(quad, humanSquares, compSquares)).reduce((a, b) => a + b, 0);
 }
 

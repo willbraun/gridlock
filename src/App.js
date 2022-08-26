@@ -6,12 +6,12 @@ import './styles/header.css';
 import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
-import { numbers, digits, getAllQuads } from './data';
-import { isSingleDigitInt, getMultipliers, getComputerChoices } from './helpers';
+import { numbers, digits } from './data';
+import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads } from './helpers';
 import { testTree } from './decision-tree';
 
 function App() {
-	testTree();
+	
 
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
 	const blankSettings = {
@@ -53,6 +53,8 @@ function App() {
 	}
 	
 	const [state, setState] = useState(startGame);
+
+	testTree(state.gridLayoutArray);
 
 	const isFirstTurn = state.p1Squares.length === 0 && state.p2Squares.length === 0;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
