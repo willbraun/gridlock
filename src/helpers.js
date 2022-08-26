@@ -102,7 +102,6 @@ const evaluateQuad = (quad, humanSquares, compSquares) => {
     }
 }
 
-export const evaluateBoard = (gridLayout, humanSquares, compSquares) => {
-    const winningQuads = getAllQuads(gridLayout);
+export const evaluateBoard = (winningQuads, humanSquares, compSquares) => {
     return winningQuads.map(quad => evaluateQuad(quad, humanSquares, compSquares)).reduce((a, b) => a + b, 0);
 }

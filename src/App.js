@@ -8,7 +8,7 @@ import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
 import { numbers, digits } from './data';
 import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads } from './helpers';
-import { testTree } from './decision-tree';
+import { testTree, getComputerChoiceNums } from './decision-tree';
 
 function App() {
 	
@@ -54,7 +54,7 @@ function App() {
 	
 	const [state, setState] = useState(startGame);
 
-	testTree(state.gridLayoutArray);
+	testTree();
 
 	const isFirstTurn = state.p1Squares.length === 0 && state.p2Squares.length === 0;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
@@ -174,8 +174,9 @@ function App() {
 		setTimeout(() => confirm(randomDigit(), randomDigit()), 2000);
 	}
 
-	const computerMinimaxPlay = () => {
-		console.log('minimax choice');
+	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
+		const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
+		setTimeout(() => confirm(choiceNum1, choiceNum2), 2000);
 	}
 
 	const startNewGame = () => {
@@ -204,7 +205,7 @@ function App() {
 				computerRandomPlay();
 			}
 			else if (state.settings.playAgainst === 2) {
-				computerMinimaxPlay();
+				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, 4);
 			}
 		}
 	}, [state.currentPlayer1])
