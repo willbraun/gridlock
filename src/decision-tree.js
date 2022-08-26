@@ -91,20 +91,21 @@ const getNodeChoices = node => {
     return getComputerChoices(node.num1, node.num2, num1Multipliers, num2Multipliers);
 }
 
-const getChildNodes = (node, currentId) => {
-    const result = [];
-    let id = currentId;
+const getChildNodes = (node, currentId, depth) => {
+    if (depth === 0) {
+        return;
+    }
+    
+    const childNodes = [];
     const [playerSquares, otherPlayerSquares] = node.compTurn ? ['compSquares', 'humanSquares'] : ['humanSquares', 'compSquares'];
     const choices = getNodeChoices(node);
-
-    console.log(node);
 
     choices.forEach(choice => {
         const newArray = [...node[playerSquares]]
         newArray.push(choice.num * choice.mult);
 
         const newNode = new Node({
-            id: id,
+            id: currentId,
             compTurn: !node.compTurn,
             toNodeId: node.id,
             [playerSquares]: newArray,
@@ -113,16 +114,32 @@ const getChildNodes = (node, currentId) => {
             num2: choice.mult,
         })
 
-        result.push(newNode);
-        id++;
+        childNodes.push(newNode);
+        currentId++;
     })
 
-    return result;
+    node.children.push(...childNodes);
+    node.children.forEach(child => getChildNodes(child, currentId, depth - 1))
 }
 
-const createTree = (compTurn, humanSquares, compSquares, num1, num2, depth) => {
+const createTree = (humanSquares, compSquares, num1, num2, depth) => {
     const tree = new Tree();
-    const currentId = 1;
+    let currentId = 1;
+
+    tree.add({
+        id: currentId,
+        compTurn: true,
+        humanSquares: humanSquares,
+        compSquares: compSquares,
+        num1: num1,
+        num2: num2,
+    });
+
+    getChildNodes(tree.root, currentId, depth);
+    console.log(tree);
+
+
+    
 
     // each iteration of findChildren, update currentId to be itself += results.length
 
@@ -132,16 +149,18 @@ const createTree = (compTurn, humanSquares, compSquares, num1, num2, depth) => {
 }
 
 export const testTree = () => {
-    let tree = new Tree();
+    createTree([28], [45], 4, 7, 4);
+    // let tree = new Tree();
 
-    tree.add({
-        id: 1,
-        compTurn: true,
-        humanSquares: [28],
-        compSquares: [45],
-        num1: 4,
-        num2: 7,
-    });
+    // tree.add({
+    //     id: 1,
+    //     compTurn: true,
+    //     humanSquares: [28],
+    //     compSquares: [45],
+    //     num1: 4,
+    //     num2: 7,
+    // });
 
-    console.log(getChildNodes(tree.root, 1))
+    // getChildNodes(tree.root, 1);
+    // console.log(tree.root);
 }
