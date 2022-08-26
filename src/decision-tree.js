@@ -33,57 +33,57 @@ class Node {
 // - try to get rid of traverse function since nodes should be added in a specific order. We shouldn't have to traverse the tree to find where to add a node.
 
 
-class Tree {
-    constructor() {
-        this.root = null;
-    }
+// class Tree {
+//     constructor() {
+//         this.root = null;
+//     }
 
-    add({id, compTurn, toNodeId, humanSquares, compSquares, num1, num2, value} = {}) {
-        const node = new Node({id, compTurn, humanSquares, compSquares, num1, num2, value});
+//     add({id, compTurn, toNodeId, humanSquares, compSquares, num1, num2, value} = {}) {
+//         const node = new Node({id, compTurn, humanSquares, compSquares, num1, num2, value});
 
-        const parent = toNodeId ? this.findBFS(toNodeId) : null;
+//         const parent = toNodeId ? this.findBFS(toNodeId) : null;
 
-        if (parent) {
-            parent.children.push(node);
-        }
-        else {
-            if(!this.root) {
-                this.root = node;
-            }
-            else {
-                return "Tried to store node at root when root already exists.";
-            }
-        }
-    }
+//         if (parent) {
+//             parent.children.push(node);
+//         }
+//         else {
+//             if(!this.root) {
+//                 this.root = node;
+//             }
+//             else {
+//                 return "Tried to store node at root when root already exists.";
+//             }
+//         }
+//     }
 
-    findBFS(id) {
-        let _node = null;
+//     findBFS(id) {
+//         let _node = null;
 
-        this.traverseBFS(node => {
-            if (node.id === id) {
-                _node = node;
-            }
-        })
+//         this.traverseBFS(node => {
+//             if (node.id === id) {
+//                 _node = node;
+//             }
+//         })
 
-        return _node;
-    }
+//         return _node;
+//     }
 
-    traverseBFS(callback) {
-        const queue = [this.root];
+//     traverseBFS(callback) {
+//         const queue = [this.root];
 
-        if (callback) {
-            while (queue.length) {
-                const node = queue.shift();
+//         if (callback) {
+//             while (queue.length) {
+//                 const node = queue.shift();
 
-                callback(node);
+//                 callback(node);
 
-                for (const child of node.children) {
-                    queue.push(child);
-                }
-            }
-        }
-    }
-}
+//                 for (const child of node.children) {
+//                     queue.push(child);
+//                 }
+//             }
+//         }
+//     }
+// }
 
 const getNodeChoices = node => {
     const num1Multipliers = getMultipliers(node.num1, node.humanSquares, node.compSquares);
@@ -91,8 +91,9 @@ const getNodeChoices = node => {
     return getComputerChoices(node.num1, node.num2, num1Multipliers, num2Multipliers);
 }
 
-const getChildNodes = (node, currentId, depth) => {
+const getChildNodes = (node, depth, incrementNodeId, getNodeId) => {
     if (depth === 0) {
+        // run evaluation function to set value on each node at this depth
         return;
     }
     
@@ -105,7 +106,7 @@ const getChildNodes = (node, currentId, depth) => {
         newArray.push(choice.num * choice.mult);
 
         const newNode = new Node({
-            id: currentId,
+            id: getNodeId(),
             compTurn: !node.compTurn,
             toNodeId: node.id,
             [playerSquares]: newArray,
@@ -115,52 +116,24 @@ const getChildNodes = (node, currentId, depth) => {
         })
 
         childNodes.push(newNode);
-        currentId++;
+        incrementNodeId();
     })
 
     node.children.push(...childNodes);
-    node.children.forEach(child => getChildNodes(child, currentId, depth - 1))
+    node.children.forEach(child => getChildNodes(child, depth - 1, incrementNodeId, getNodeId));
 }
 
 const createTree = (humanSquares, compSquares, num1, num2, depth) => {
-    const tree = new Tree();
-    let currentId = 1;
+    const tree = new Node({id: 1, compTurn: true, humanSquares, compSquares, num1, num2});
+    let nodeId = 2;
 
-    tree.add({
-        id: currentId,
-        compTurn: true,
-        humanSquares: humanSquares,
-        compSquares: compSquares,
-        num1: num1,
-        num2: num2,
-    });
+    const incrementNodeId = () => nodeId++;
+    const getNodeId = () => nodeId;
 
-    getChildNodes(tree.root, currentId, depth);
+    getChildNodes(tree, depth, incrementNodeId, getNodeId);
     console.log(tree);
-
-
-    
-
-    // each iteration of findChildren, update currentId to be itself += results.length
-
-    // ForEach nodeA, getChildNodes and add to the tree, then move to sibling of nodeA
-    // after all nodes at a given depth have had their children found, go to next level in depth to find their children
-    // stop after depth = 0
 }
 
 export const testTree = () => {
     createTree([28], [45], 4, 7, 4);
-    // let tree = new Tree();
-
-    // tree.add({
-    //     id: 1,
-    //     compTurn: true,
-    //     humanSquares: [28],
-    //     compSquares: [45],
-    //     num1: 4,
-    //     num2: 7,
-    // });
-
-    // getChildNodes(tree.root, 1);
-    // console.log(tree.root);
 }
