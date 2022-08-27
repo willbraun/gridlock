@@ -25,7 +25,7 @@
 }
 
 .vs-icon.computer-turn {
-    transform: scale(1.25);
+    animation: think 0.6666s ease-in-out infinite;
 }
 
 .gear-icon {
@@ -43,4 +43,16 @@
     position: absolute;
     top: 0;
     left: 0;
+}
+
+@keyframes think {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
