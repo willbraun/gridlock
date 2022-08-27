@@ -1,7 +1,11 @@
-import { numbers, pointValues } from './data';
+import { numbers, digits, pointValues } from './data';
 
 export const isSingleDigitInt = num => {
     return Number.isInteger(num) && num < 10;
+}
+
+export const randomDigit = () => {
+    return digits[Math.floor(Math.random() * 9)];
 }
 
 const getAvailableSqaures = (p1Squares, p2Squares) => {

@@ -1,14 +1,15 @@
-import { numbers } from './data';
+import { digits } from './data';
 import { getMultipliers, getComputerChoices, getAllQuads, evaluateBoard } from './helpers';
 
 class Node {
     constructor({id, compTurn, humanSquares, compSquares, num1, num2} = {}) {
         this.id = id;
+        this.value = null;
+        this.num1 = num1;
+        this.num2 = num2;
         this.compTurn = compTurn;
         this.humanSquares = humanSquares;
         this.compSquares = compSquares;
-        this.num1 = num1;
-        this.num2 = num2;
         this.children = [];
     }
 }
@@ -27,10 +28,6 @@ class Node {
 // when creating nodes not at at max depth, do not include value
 // when creating nodes at max depth, include value
 // to include value, take humanSquares and compSquares and feed to evaluateBoard
-
-// if performance is a problem, 
-// - try deleting humanSquares, compSquares, nums, and multipliers from the parent after the children are created so each node isn't so big
-// - try to get rid of traverse function since nodes should be added in a specific order. We shouldn't have to traverse the tree to find where to add a node.
 
 
 // class Tree {
@@ -205,8 +202,34 @@ export const getComputerChoiceNums = (humanSquares, compSquares, num1, num2, gri
     console.log(tree);
     console.log(tree.children.map(node => node.value));
     console.log(choice);
+    // console.log(JSON.stringify(tree))
     return [choice.num1, choice.num2];
 }
+
+
+export const getComputerFirstChoice = (gridLayout) => {
+    const trees = [];
+    const winningQuads = getAllQuads(gridLayout);
+    const depth = 2;
+
+    for (const i of digits) {
+        for (const j of digits) {
+            const tree = createTree([], [], i, j, winningQuads, depth);
+            minimax(tree, depth, true);
+            trees.push(tree);
+        }
+    }
+
+    const max = Math.max(...trees.map(rootNode => rootNode.value));
+    const choices = trees.filter(rootNode => rootNode.value === max);
+    const choice = choices[Math.floor(Math.random() * choices.length)];
+
+    // console.log(trees);
+    // console.log([choice.num1, choice.num2]);
+    return [choice.num1, choice.num2];
+}
+
+
 
 export const testTree = () => {
     // console.log(evaluateBoard(getAllQuads(numbers), [18, 30, 36, 4, 8, 10, 2, 5, 15, 28, 32, 54], [42, 48, 6, 20, 12, 16, 1, 25, 35, 56, 72, 24]));

@@ -7,12 +7,10 @@ import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
 import { numbers, digits } from './data';
-import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads } from './helpers';
-import { testTree, getComputerChoiceNums } from './decision-tree';
+import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads, randomDigit } from './helpers';
+import { testTree, getComputerChoiceNums, getComputerFirstChoice } from './decision-tree';
 
 function App() {
-	
-
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
 	const blankSettings = {
 		playAgainst: 0,
@@ -53,8 +51,6 @@ function App() {
 	}
 	
 	const [state, setState] = useState(startGame);
-
-	testTree();
 
 	const isFirstTurn = state.p1Squares.length === 0 && state.p2Squares.length === 0;
 	const isBothRows = !!state.selectedMultiplier && !!state.selectedMultiplier2;
@@ -166,12 +162,13 @@ function App() {
 		setTimeout(() => confirm(num, mult), 2000);
 	}
 
-	const randomDigit = () => {
-		return digits[Math.floor(Math.random() * 9)];
-	}
-
 	const computerRandomFirstPlay = () => {
 		setTimeout(() => confirm(randomDigit(), randomDigit()), 2000);
+	}
+
+	const computerMinimaxFirstPlay = () => {
+		const [choiceNum1, choiceNum2] = getComputerFirstChoice(state.gridLayoutArray);
+		setTimeout(() => confirm(choiceNum1, choiceNum2), 2000);
 	}
 
 	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
@@ -195,7 +192,12 @@ function App() {
 
 	useEffect(() => {
 		if (isComputerPlayer && isFirstTurn && state.isComputerRed) {
-			computerRandomFirstPlay();
+			if (state.settings.playAgainst === 2) {
+				computerMinimaxFirstPlay();
+			}
+			else {
+				computerRandomFirstPlay();
+			}
 		}
 	}, [state.isComputerRed, isFirstTurn])
 
@@ -205,7 +207,7 @@ function App() {
 				computerRandomPlay();
 			}
 			else if (state.settings.playAgainst === 2) {
-				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, 4);
+				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, 2);
 			}
 		}
 	}, [state.currentPlayer1])
