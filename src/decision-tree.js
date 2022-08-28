@@ -213,7 +213,7 @@ export const getComputerFirstChoice = (gridLayout) => {
     const depth = 2;
 
     for (const i of digits) {
-        for (const j of digits) {
+        for (let j = i; j < 10; j++) {
             const tree = createTree([], [], i, j, winningQuads, depth);
             minimax(tree, depth, true);
             trees.push(tree);
@@ -223,7 +223,7 @@ export const getComputerFirstChoice = (gridLayout) => {
     const max = Math.max(...trees.map(rootNode => rootNode.value));
     const choices = trees.filter(rootNode => rootNode.value === max);
     const choice = choices[Math.floor(Math.random() * choices.length)];
-
+    
     // console.log(trees);
     // console.log([choice.num1, choice.num2]);
     return [choice.num1, choice.num2];
