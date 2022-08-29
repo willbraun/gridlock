@@ -115,6 +115,12 @@ class Node {
 //     ]
 // }
 
+const setNodeValue = (node, value) => {
+    node.value = value;
+    node.alpha = null;
+    node.beta = null;
+}
+
 const getNodeChoices = node => {
     const num1Multipliers = getMultipliers(node.num1, node.humanSquares, node.compSquares);
     const num2Multipliers = getMultipliers(node.num2, node.humanSquares, node.compSquares);
@@ -123,11 +129,18 @@ const getNodeChoices = node => {
 
 const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) => {
     if (depth === 0) {
-        node.value = evaluateBoard(winningQuads, node.humanSquares, node.compSquares);
+        const value = evaluateBoard(winningQuads, node.humanSquares, node.compSquares);
+        setNodeValue(node, value);
         return;
     }
 
-    // check evaluation, if value is over 600 OR less than -600, set value, return, and don't get children. Math.abs(evaluation) > 900, return
+    const currentValue = evaluateBoard(winningQuads, node.humanSquares, node.compSquares);
+    if (Math.abs(currentValue) > 600) {
+        setNodeValue(node, currentValue);
+        return;
+    }
+
+    // check evaluation, if value is over 600 OR less than -600, set value, return, and don't get children. Math.abs(evaluation) > 600, return
     
     const [playerSquares, otherPlayerSquares] = node.compTurn ? ['compSquares', 'humanSquares'] : ['humanSquares', 'compSquares'];
     const choices = getNodeChoices(node);
@@ -156,13 +169,13 @@ const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) =>
 
         getChildNodes(newNode, depth - 1, getNodeId, incrementNodeId, winningQuads);
 
-        let childValues;
-        if (depth === 1) {
-            childValues = node.children.map(child => child.value);
-        }
-        else {
-            childValues = node.children.map(child => [child.alpha, child.beta, child.value]).flat();
-        }
+        // let childValues;
+        // if (depth === 1) {
+        //     childValues = node.children.map(child => child.value);
+        // }
+        // else {
+            const childValues = node.children.map(child => [child.alpha, child.beta, child.value]).flat();
+        // }
     
         if (node.compTurn) {
             const max = Math.max(...childValues);
