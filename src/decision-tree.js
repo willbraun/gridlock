@@ -2,11 +2,13 @@ import { digits } from './data';
 import { getMultipliers, getComputerChoices, getAllQuads, evaluateBoard } from './helpers';
 
 class Node {
-    constructor({id, compTurn, humanSquares, compSquares, num1, num2} = {}) {
+    constructor({id, compTurn, alpha, beta, humanSquares, compSquares, num1, num2} = {}) {
         this.id = id;
-        this.value = null;
         this.num1 = num1;
         this.num2 = num2;
+        this.value = null;
+        this.alpha = alpha;
+        this.beta = beta;
         this.compTurn = compTurn;
         this.humanSquares = humanSquares;
         this.compSquares = compSquares;
@@ -82,42 +84,102 @@ class Node {
 //     }
 // }
 
+// const testMinimax = {
+//     children: [
+//         {
+//             children: [
+//                 {
+//                     value: 5,
+//                 },
+//                 {
+//                     value: -9,
+//                 },
+//                 {
+//                     value: 0,
+//                 },
+//             ]
+//         },
+//         {
+//             children: [
+//                 {
+//                     value: 9,
+//                 },
+//                 {
+//                     value: -3,
+//                 },
+//                 {
+//                     value: 2,
+//                 },
+//             ]
+//         },
+//     ]
+// }
+
 const getNodeChoices = node => {
     const num1Multipliers = getMultipliers(node.num1, node.humanSquares, node.compSquares);
     const num2Multipliers = getMultipliers(node.num2, node.humanSquares, node.compSquares);
     return getComputerChoices(node.num1, node.num2, num1Multipliers, num2Multipliers);
 }
 
-const getChildNodes = (node, depth, incrementNodeId, getNodeId, winningQuads) => {
+const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) => {
     if (depth === 0) {
         node.value = evaluateBoard(winningQuads, node.humanSquares, node.compSquares);
         return;
     }
+
+    // check evaluation, if value is over 900 OR less than -900, set value, return, and don't get children. Math.abs(evaluation) > 900, return
     
-    const childNodes = [];
     const [playerSquares, otherPlayerSquares] = node.compTurn ? ['compSquares', 'humanSquares'] : ['humanSquares', 'compSquares'];
     const choices = getNodeChoices(node);
 
-    choices.forEach(choice => {
-        const newArray = [...node[playerSquares]]
+    for (const choice of choices) {
+        if (node.alpha >= node.beta) {
+            break;
+        }
+
+        const newArray = [...node[playerSquares]];
         newArray.push(choice.num * choice.mult);
 
         const newNode = new Node({
             id: getNodeId(),
-            compTurn: !node.compTurn,
-            toNodeId: node.id,
-            [playerSquares]: newArray,
-            [otherPlayerSquares]: node[otherPlayerSquares],
+            alpha: node.alpha,
+            beta: node.beta,
             num1: choice.num,
             num2: choice.mult,
+            compTurn: !node.compTurn,
+            [playerSquares]: newArray,
+            [otherPlayerSquares]: node[otherPlayerSquares],
         })
 
-        childNodes.push(newNode);
+        node.children.push(newNode);
         incrementNodeId();
-    })
 
-    node.children.push(...childNodes);
-    node.children.forEach(child => getChildNodes(child, depth - 1, incrementNodeId, getNodeId, winningQuads));
+        getChildNodes(newNode, depth - 1, getNodeId, incrementNodeId, winningQuads);
+
+        let childValues;
+        if (depth === 1) {
+            childValues = node.children.map(child => child.value);
+        }
+        else {
+            childValues = node.children.map(child => [child.alpha, child.beta, child.value]).flat();
+        }
+    
+        if (node.compTurn) {
+            const max = Math.max(...childValues);
+            node.value = max;
+            if (max > node.alpha) {
+                node.alpha = max;
+            }
+        } 
+        else {
+            const min = Math.min(...childValues);
+            node.value = min;
+            if (min < node.beta) {
+                node.beta = min;
+            }
+        }
+
+    }
 }
 
 const minimax = (node, depth, isMaxPlayer) => {
@@ -151,52 +213,22 @@ const minimax = (node, depth, isMaxPlayer) => {
     }
 }
 
-const testMinimax = {
-    children: [
-        {
-            children: [
-                {
-                    value: 5,
-                },
-                {
-                    value: -9,
-                },
-                {
-                    value: 0,
-                },
-            ]
-        },
-        {
-            children: [
-                {
-                    value: 9,
-                },
-                {
-                    value: -3,
-                },
-                {
-                    value: 2,
-                },
-            ]
-        },
-    ]
-}
-
 const createTree = (humanSquares, compSquares, num1, num2, winningQuads, depth) => {
-    const tree = new Node({id: 1, compTurn: true, humanSquares, compSquares, num1, num2});
+    const tree = new Node({id: 1, compTurn: true, alpha: Number.NEGATIVE_INFINITY, beta: Number.POSITIVE_INFINITY, humanSquares, compSquares, num1, num2});
     let nodeId = 2;
 
-    const incrementNodeId = () => nodeId++;
     const getNodeId = () => nodeId;
+    const incrementNodeId = () => nodeId++;
 
-    getChildNodes(tree, depth, incrementNodeId, getNodeId, winningQuads);
+    getChildNodes(tree, depth, getNodeId, incrementNodeId, winningQuads);
+    console.log(nodeId, 'nodes');
     return tree;
 }
 
 export const getComputerChoiceNums = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
     const winningQuads = getAllQuads(gridLayout);
     const tree = createTree(humanSquares, compSquares, num1, num2, winningQuads, depth);
-    minimax(tree, depth, true);
+    // minimax(tree, depth, true);
     
     const choice = tree.children.find(node => node.value === tree.value);
     console.log(tree);
@@ -215,7 +247,7 @@ export const getComputerFirstChoice = (gridLayout) => {
     for (const i of digits) {
         for (let j = i; j < 10; j++) {
             const tree = createTree([], [], i, j, winningQuads, depth);
-            minimax(tree, depth, true);
+            // minimax(tree, depth, true);
             trees.push(tree);
         }
     }
@@ -223,9 +255,7 @@ export const getComputerFirstChoice = (gridLayout) => {
     const max = Math.max(...trees.map(rootNode => rootNode.value));
     const choices = trees.filter(rootNode => rootNode.value === max);
     const choice = choices[Math.floor(Math.random() * choices.length)];
-    
-    // console.log(trees);
-    // console.log([choice.num1, choice.num2]);
+
     return [choice.num1, choice.num2];
 }
 

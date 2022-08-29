@@ -27,8 +27,13 @@ export const getMultipliers = (number, p1Squares, p2Squares) => {
 
 export const getComputerChoices = (num1, num2, num1Multipliers, num2Multipliers) => {
     const choices1 = num1Multipliers.map(mult => Object.fromEntries([['num', num1], ['mult', mult]]));
-    const choices2 = num2Multipliers.map(mult => Object.fromEntries([['num', num2], ['mult', mult]]));
-    return [...choices1, ...choices2];
+    if (num1 === num2) {
+        return choices1;
+    }
+    else {
+        const choices2 = num2Multipliers.map(mult => Object.fromEntries([['num', num2], ['mult', mult]]));
+        return [...choices1, ...choices2];
+    }
 }
 
 const getHorizontalQuads = numberArray => {

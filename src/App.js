@@ -178,7 +178,8 @@ function App() {
 
 	const startNewGame = () => {
 		if (isComputerPlayer) {
-			const p1Start = getRandomBool();
+			// const p1Start = getRandomBool();
+			const p1Start = true;
 			setState({...startGame, currentPlayer1: p1Start, isComputerRed: !p1Start})
 		}
 		else {
@@ -207,7 +208,7 @@ function App() {
 				computerRandomPlay();
 			}
 			else if (state.settings.playAgainst === 2) {
-				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, 4);
+				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, 6);
 			}
 		}
 	}, [state.currentPlayer1])
