@@ -156,14 +156,14 @@ function App() {
 		}
 	}
 
+	const computerRandomFirstPlay = () => {
+		setTimeout(() => confirm(randomDigit(), randomDigit()), 2000);
+	}
+
 	const computerRandomPlay = () => {
 		const choices = getComputerChoices(state.num1, state.num2, num1Multipliers, num2Multipliers);
 		const {num, mult} = choices[Math.floor(Math.random() * choices.length)];
 		setTimeout(() => confirm(num, mult), 2000);
-	}
-
-	const computerRandomFirstPlay = () => {
-		setTimeout(() => confirm(randomDigit(), randomDigit()), 2000);
 	}
 
 	const computerMinimaxFirstPlay = () => {
@@ -173,7 +173,8 @@ function App() {
 
 	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
 		const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
-		setTimeout(() => confirm(choiceNum1, choiceNum2), 2000);
+		confirm(choiceNum1, choiceNum2);
+		// setTimeout(() => confirm(choiceNum1, choiceNum2), 2000);
 	}
 
 	const startNewGame = () => {

@@ -31,90 +31,6 @@ class Node {
 // when creating nodes at max depth, include value
 // to include value, take humanSquares and compSquares and feed to evaluateBoard
 
-
-// class Tree {
-//     constructor() {
-//         this.root = null;
-//     }
-
-//     add({id, compTurn, toNodeId, humanSquares, compSquares, num1, num2, value} = {}) {
-//         const node = new Node({id, compTurn, humanSquares, compSquares, num1, num2, value});
-
-//         const parent = toNodeId ? this.findBFS(toNodeId) : null;
-
-//         if (parent) {
-//             parent.children.push(node);
-//         }
-//         else {
-//             if(!this.root) {
-//                 this.root = node;
-//             }
-//             else {
-//                 return "Tried to store node at root when root already exists.";
-//             }
-//         }
-//     }
-
-//     findBFS(id) {
-//         let _node = null;
-
-//         this.traverseBFS(node => {
-//             if (node.id === id) {
-//                 _node = node;
-//             }
-//         })
-
-//         return _node;
-//     }
-
-//     traverseBFS(callback) {
-//         const queue = [this.root];
-
-//         if (callback) {
-//             while (queue.length) {
-//                 const node = queue.shift();
-
-//                 callback(node);
-
-//                 for (const child of node.children) {
-//                     queue.push(child);
-//                 }
-//             }
-//         }
-//     }
-// }
-
-// const testMinimax = {
-//     children: [
-//         {
-//             children: [
-//                 {
-//                     value: 5,
-//                 },
-//                 {
-//                     value: -9,
-//                 },
-//                 {
-//                     value: 0,
-//                 },
-//             ]
-//         },
-//         {
-//             children: [
-//                 {
-//                     value: 9,
-//                 },
-//                 {
-//                     value: -3,
-//                 },
-//                 {
-//                     value: 2,
-//                 },
-//             ]
-//         },
-//     ]
-// }
-
 const setNodeValue = (node, value) => {
     node.value = value;
     node.alpha = null;
@@ -139,8 +55,6 @@ const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) =>
         setNodeValue(node, currentValue);
         return;
     }
-
-    // check evaluation, if value is over 600 OR less than -600, set value, return, and don't get children. Math.abs(evaluation) > 600, return
     
     const [playerSquares, otherPlayerSquares] = node.compTurn ? ['compSquares', 'humanSquares'] : ['humanSquares', 'compSquares'];
     const choices = getNodeChoices(node);
@@ -169,13 +83,7 @@ const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) =>
 
         getChildNodes(newNode, depth - 1, getNodeId, incrementNodeId, winningQuads);
 
-        // let childValues;
-        // if (depth === 1) {
-        //     childValues = node.children.map(child => child.value);
-        // }
-        // else {
-            const childValues = node.children.map(child => [child.alpha, child.beta, child.value]).flat();
-        // }
+        const childValues = node.children.map(child => [child.alpha, child.beta, child.value]).flat();
     
         if (node.compTurn) {
             const max = Math.max(...childValues);
@@ -191,40 +99,8 @@ const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) =>
                 node.beta = min;
             }
         }
-
     }
 }
-
-// const minimax = (node, depth, isMaxPlayer) => {
-//     if (depth === 0 || node.children.length === 0) {
-//         return node.value;
-//     }
-
-//     let bestValue, value;
-
-//     if (isMaxPlayer) {
-//         bestValue = Number.NEGATIVE_INFINITY;
-
-//         node.children.forEach(child => {
-//             value = minimax(child, depth - 1, false);
-//             bestValue = Math.max(value, bestValue);
-//         })
-
-//         node.value = bestValue;
-//         return bestValue;
-//     }
-//     else {
-//         bestValue = Number.POSITIVE_INFINITY;
-
-//         node.children.forEach(child => {
-//             value = minimax(child, depth - 1, true);
-//             bestValue = Math.min(value, bestValue);
-//         })
-
-//         node.value = bestValue;
-//         return bestValue;
-//     }
-// }
 
 const createTree = (humanSquares, compSquares, num1, num2, winningQuads, depth) => {
     const tree = new Node({id: 1, compTurn: true, alpha: Number.NEGATIVE_INFINITY, beta: Number.POSITIVE_INFINITY, humanSquares, compSquares, num1, num2});
@@ -241,13 +117,11 @@ const createTree = (humanSquares, compSquares, num1, num2, winningQuads, depth) 
 export const getComputerChoiceNums = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
     const winningQuads = getAllQuads(gridLayout);
     const tree = createTree(humanSquares, compSquares, num1, num2, winningQuads, depth);
-    // minimax(tree, depth, true);
     
     const choice = tree.children.find(node => node.value === tree.value);
     console.log(tree);
     console.log(tree.children.map(node => node.value));
     console.log(choice);
-    // console.log(JSON.stringify(tree))
     return [choice.num1, choice.num2];
 }
 
@@ -260,7 +134,6 @@ export const getComputerFirstChoice = (gridLayout) => {
     for (const i of digits) {
         for (let j = i; j < 10; j++) {
             const tree = createTree([], [], i, j, winningQuads, depth);
-            // minimax(tree, depth, true);
             trees.push(tree);
         }
     }
