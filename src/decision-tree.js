@@ -127,7 +127,7 @@ const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) =>
         return;
     }
 
-    // check evaluation, if value is over 900 OR less than -900, set value, return, and don't get children. Math.abs(evaluation) > 900, return
+    // check evaluation, if value is over 600 OR less than -600, set value, return, and don't get children. Math.abs(evaluation) > 900, return
     
     const [playerSquares, otherPlayerSquares] = node.compTurn ? ['compSquares', 'humanSquares'] : ['humanSquares', 'compSquares'];
     const choices = getNodeChoices(node);
@@ -182,36 +182,36 @@ const getChildNodes = (node, depth, getNodeId, incrementNodeId, winningQuads) =>
     }
 }
 
-const minimax = (node, depth, isMaxPlayer) => {
-    if (depth === 0 || node.children.length === 0) {
-        return node.value;
-    }
+// const minimax = (node, depth, isMaxPlayer) => {
+//     if (depth === 0 || node.children.length === 0) {
+//         return node.value;
+//     }
 
-    let bestValue, value;
+//     let bestValue, value;
 
-    if (isMaxPlayer) {
-        bestValue = Number.NEGATIVE_INFINITY;
+//     if (isMaxPlayer) {
+//         bestValue = Number.NEGATIVE_INFINITY;
 
-        node.children.forEach(child => {
-            value = minimax(child, depth - 1, false);
-            bestValue = Math.max(value, bestValue);
-        })
+//         node.children.forEach(child => {
+//             value = minimax(child, depth - 1, false);
+//             bestValue = Math.max(value, bestValue);
+//         })
 
-        node.value = bestValue;
-        return bestValue;
-    }
-    else {
-        bestValue = Number.POSITIVE_INFINITY;
+//         node.value = bestValue;
+//         return bestValue;
+//     }
+//     else {
+//         bestValue = Number.POSITIVE_INFINITY;
 
-        node.children.forEach(child => {
-            value = minimax(child, depth - 1, true);
-            bestValue = Math.min(value, bestValue);
-        })
+//         node.children.forEach(child => {
+//             value = minimax(child, depth - 1, true);
+//             bestValue = Math.min(value, bestValue);
+//         })
 
-        node.value = bestValue;
-        return bestValue;
-    }
-}
+//         node.value = bestValue;
+//         return bestValue;
+//     }
+// }
 
 const createTree = (humanSquares, compSquares, num1, num2, winningQuads, depth) => {
     const tree = new Node({id: 1, compTurn: true, alpha: Number.NEGATIVE_INFINITY, beta: Number.POSITIVE_INFINITY, humanSquares, compSquares, num1, num2});
