@@ -168,10 +168,18 @@ function App() {
 
 	const computerMinimaxFirstPlay = () => {
 		const [choiceNum1, choiceNum2] = getComputerFirstChoice(state.gridLayoutArray);
-		setTimeout(() => confirm(choiceNum1, choiceNum2), 2000);
+		confirm(choiceNum1, choiceNum2);
 	}
 
+	const compWorkerURL = URL.createObjectURL(new Blob([`(${'onmessage = message => console.log(message)'})()`], {type: 'text/javascript'}));
+	const compWorker = new Worker(compWorkerURL);
+	compWorker.postMessage('banana');
+
 	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
+
+		// compWorker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth});
+		// compWorker.onmessage = message => console.log(message);
+
 		const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
 		confirm(choiceNum1, choiceNum2);
 		// setTimeout(() => confirm(choiceNum1, choiceNum2), 2000);
