@@ -8,7 +8,7 @@ import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
 import { numbers, digits } from './data';
 import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads, randomDigit } from './helpers';
-import { testTree, getComputerChoiceNums, getComputerFirstChoice } from './decision-tree';
+import { getComputerFirstChoice, getComputerChoiceNums} from './decision-tree';
 
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
@@ -171,18 +171,16 @@ function App() {
 		confirm(choiceNum1, choiceNum2);
 	}
 
-	const compWorkerURL = URL.createObjectURL(new Blob([`(${'onmessage = message => console.log(message)'})()`], {type: 'text/javascript'}));
-	const compWorker = new Worker(compWorkerURL);
-	compWorker.postMessage('banana');
-
 	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
-
+		// const compWorker = new Worker('comp-worker.js', {type: 'module'});
+		// const compWorkerURL = URL.createObjectURL(new Blob([workerString], {type: 'text/javascript'}));
+		// const compWorker = new Worker(compWorkerURL);
+		// const winningQuads = getAllQuads(gridLayout);
 		// compWorker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth});
-		// compWorker.onmessage = message => console.log(message);
+		// compWorker.onmessage = message => console.log(message.data);
 
 		const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
 		confirm(choiceNum1, choiceNum2);
-		// setTimeout(() => confirm(choiceNum1, choiceNum2), 2000);
 	}
 
 	const startNewGame = () => {

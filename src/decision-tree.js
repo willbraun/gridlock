@@ -125,7 +125,6 @@ export const getComputerChoiceNums = (humanSquares, compSquares, num1, num2, gri
     return [choice.num1, choice.num2];
 }
 
-
 export const getComputerFirstChoice = (gridLayout) => {
     const trees = [];
     const winningQuads = getAllQuads(gridLayout);
@@ -147,7 +146,7 @@ export const getComputerFirstChoice = (gridLayout) => {
 
 
 
-export const testTree = () => {
+const testTree = () => {
     // console.log(evaluateBoard(getAllQuads(numbers), [18, 30, 36, 4, 8, 10, 2, 5, 15, 28, 32, 54], [42, 48, 6, 20, 12, 16, 1, 25, 35, 56, 72, 24]));
     // console.log(minimax(testMinimax, 2, true));
     // const choice = computerMinimaxPlay([28], [45], 4, 7, array, 2);
