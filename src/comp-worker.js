@@ -1,12 +1,26 @@
-// import { getComputerChoiceNums } from "./decision-tree.js";
-
 /* eslint-disable no-undef */
 /* eslint-disable no-restricted-globals */
 
 const worker = () => {
-    onmessage = function(message) {
-        postMessage(message.data);
+    if (typeof importScripts === 'function') {
+
+        onmessage = (message) => {
+            importScripts(message.data.url + '/helpers.js')
+
+            postMessage(message.data);
+        }
+
     }
+    
+    // onmessage = function(message) {
+        
+
+
+    //     // take in data and helper functions in message
+    //     // move all decision tree code inside here 
+    //     // return choices or just run confirm if I can pass that here
+    //     postMessage(message.data);
+    // }
 }
 
 

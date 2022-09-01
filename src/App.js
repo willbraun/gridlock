@@ -174,19 +174,21 @@ function App() {
 	}
 
 	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
-		const compWorker = new WorkerBuilder(worker);
 		// const compWorkerURL = URL.createObjectURL(new Blob([workerString], {type: 'text/javascript'}));
 		// const compWorker = new Worker(compWorkerURL);
 		// const winningQuads = getAllQuads(gridLayout);
 		// compWorker.postMessage('test')
-		const messageObject = {humanSquares, compSquares, num1, num2, gridLayout, depth, digits };
+		// const messageObject = {humanSquares, compSquares, num1, num2, gridLayout, depth, digits };
 		// messageObject.test = getMultipliers;
 		// compWorker.postMessage(messageObject)
-		// compWorker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth, digits });
-		compWorker.onmessage = message => console.log(message.data);
 
-		// const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
-		// confirm(choiceNum1, choiceNum2);
+		// const compWorker = new WorkerBuilder(worker);
+		// const url = window.location.href;
+		// compWorker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth, digits, url });
+		// compWorker.onmessage = message => console.log(message.data);
+
+		const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
+		confirm(choiceNum1, choiceNum2);
 	}
 
 	const startNewGame = () => {
