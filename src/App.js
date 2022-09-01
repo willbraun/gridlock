@@ -7,8 +7,10 @@ import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
 import { numbers, digits } from './data';
-import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads, randomDigit } from './helpers';
+import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads, randomDigit, evaluateBoard } from './helpers';
 import { getComputerFirstChoice, getComputerChoiceNums} from './decision-tree';
+import WorkerBuilder from './worker-builder';
+import worker from './comp-worker'
 
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
@@ -172,15 +174,19 @@ function App() {
 	}
 
 	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
-		// const compWorker = new Worker('comp-worker.js', {type: 'module'});
+		const compWorker = new WorkerBuilder(worker);
 		// const compWorkerURL = URL.createObjectURL(new Blob([workerString], {type: 'text/javascript'}));
 		// const compWorker = new Worker(compWorkerURL);
 		// const winningQuads = getAllQuads(gridLayout);
-		// compWorker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth});
-		// compWorker.onmessage = message => console.log(message.data);
+		// compWorker.postMessage('test')
+		const messageObject = {humanSquares, compSquares, num1, num2, gridLayout, depth, digits };
+		// messageObject.test = getMultipliers;
+		// compWorker.postMessage(messageObject)
+		// compWorker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth, digits });
+		compWorker.onmessage = message => console.log(message.data);
 
-		const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
-		confirm(choiceNum1, choiceNum2);
+		// const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
+		// confirm(choiceNum1, choiceNum2);
 	}
 
 	const startNewGame = () => {
