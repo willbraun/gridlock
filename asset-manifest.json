@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/gridlock/static/css/main.7bd30a1f.css",
-    "main.js": "/gridlock/static/js/main.e7a3e05c.js",
+    "main.js": "/gridlock/static/js/main.8d60122b.js",
     "static/js/69.3e5691a0.chunk.js": "/gridlock/static/js/69.3e5691a0.chunk.js",
     "static/js/787.fb889ad2.chunk.js": "/gridlock/static/js/787.fb889ad2.chunk.js",
     "static/media/gear-solid.svg": "/gridlock/static/media/gear-solid.c794138e0303150e022652b11ea4e8ae.svg",
     "index.html": "/gridlock/index.html",
     "main.7bd30a1f.css.map": "/gridlock/static/css/main.7bd30a1f.css.map",
-    "main.e7a3e05c.js.map": "/gridlock/static/js/main.e7a3e05c.js.map",
+    "main.8d60122b.js.map": "/gridlock/static/js/main.8d60122b.js.map",
     "69.3e5691a0.chunk.js.map": "/gridlock/static/js/69.3e5691a0.chunk.js.map",
     "787.fb889ad2.chunk.js.map": "/gridlock/static/js/787.fb889ad2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7bd30a1f.css",
-    "static/js/main.e7a3e05c.js"
+    "static/js/main.8d60122b.js"
   ]
 }
