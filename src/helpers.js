@@ -8,7 +8,7 @@ export const randomDigit = () => {
     return digits[Math.floor(Math.random() * 9)];
 }
 
-const getAvailableSqaures = (p1Squares, p2Squares) => {
+export const getAvailableSqaures = (p1Squares, p2Squares) => {
     const taken = [...p1Squares, ...p2Squares];
     let result = [...numbers];
 
@@ -36,7 +36,7 @@ export const getComputerChoices = (num1, num2, num1Multipliers, num2Multipliers)
     }
 }
 
-const getHorizontalQuads = numberArray => {
+export const getHorizontalQuads = numberArray => {
     const result = [];
     let position;
     for (let i = 0; i < 6; i++) {
@@ -48,7 +48,7 @@ const getHorizontalQuads = numberArray => {
     return result;
 }
 
-const getVerticalQuads = numberArray => {
+export const getVerticalQuads = numberArray => {
     const result = [];
     let position;
     for (let i = 0; i < 6; i++) {
@@ -60,7 +60,7 @@ const getVerticalQuads = numberArray => {
     return result;
 }
 
-const getAscDiagonalQuads = numberArray => {
+export const getAscDiagonalQuads = numberArray => {
     const result = [];
     let position;
     for (let i = 3; i < 6; i++) {
@@ -72,7 +72,7 @@ const getAscDiagonalQuads = numberArray => {
     return result;
 }
 
-const getDescDiagonalQuads = numberArray => {
+export const getDescDiagonalQuads = numberArray => {
     const result = [];
     let position;
     for (let i = 0; i < 3; i++) {
@@ -93,11 +93,11 @@ export const getAllQuads = numberArray => {
     ]
 }
 
-const countColors = (quad, playerSquares) => {
+export const countColors = (quad, playerSquares) => {
     return quad.filter(x => playerSquares.includes(x)).length;
 }
 
-const evaluateQuad = (quad, humanSquares, compSquares) => {
+export const evaluateQuad = (quad, humanSquares, compSquares) => {
     const humanCount = countColors(quad, humanSquares);
     const compCount = countColors(quad, compSquares);
     if (humanCount === 0) {

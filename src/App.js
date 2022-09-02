@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
@@ -9,8 +9,15 @@ import GameOver from './components/GameOver';
 import { numbers, digits } from './data';
 import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads, randomDigit, evaluateBoard } from './helpers';
 import { getComputerFirstChoice, getComputerChoiceNums} from './decision-tree';
-import WorkerBuilder from './worker-builder';
-import worker from './comp-worker'
+import * as helpers from './helpers';
+import * as data from './data';
+// import WorkerBuilder from './worker-builder';
+// import worker from './comp-worker'
+
+// const dataString = JSON.stringify(data);
+// const helperObj = Object.entries(helpers).map(x => {return {name: x[0], func: x[1].toString()}});
+// const helperString = JSON.stringify(helperObj);
+
 
 function App() {
 	const savedSettings = JSON.parse(window.localStorage.getItem('gridlockSettings'));
@@ -50,6 +57,7 @@ function App() {
 		selectedMultiplier2: null,
 		winningQuad: [],
 		settings: settings,
+		depth: 6,
 	}
 	
 	const [state, setState] = useState(startGame);
@@ -126,7 +134,7 @@ function App() {
 
 	const playerArray = state.currentPlayer1 ? 'p1Squares' : 'p2Squares';
 
-	const confirm = (num, mult) => {
+	const confirm = (num, mult, nodeId = undefined) => {
 		const newList = state[playerArray];
 		newList.push(num * mult);
 
@@ -145,6 +153,14 @@ function App() {
 				: Object.entries(state).find(entry => entry[1] === num)[0];
 			const newNumState = persistingNumState === 'num1' ? 'num2' : 'num1';
 
+			let newDepth = state.depth;
+			if (nodeId < 10000) {
+				newDepth = state.depth + 2;
+			}
+			else if (nodeId < 30000) {
+				newDepth = state.depth + 1;
+			}
+
 			setState({
 				...state,
 				[playerArray]: newList,
@@ -154,6 +170,7 @@ function App() {
 				selectedRow: null,
 				selectedMultiplier: null,
 				currentPlayer1: !state.currentPlayer1,
+				depth: newDepth,
 			})
 		}
 	}
@@ -173,22 +190,14 @@ function App() {
 		confirm(choiceNum1, choiceNum2);
 	}
 
+	const worker = new Worker(new URL('./comp-worker.js', import.meta.url));
+
 	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
-		// const compWorkerURL = URL.createObjectURL(new Blob([workerString], {type: 'text/javascript'}));
-		// const compWorker = new Worker(compWorkerURL);
-		// const winningQuads = getAllQuads(gridLayout);
-		// compWorker.postMessage('test')
-		// const messageObject = {humanSquares, compSquares, num1, num2, gridLayout, depth, digits };
-		// messageObject.test = getMultipliers;
-		// compWorker.postMessage(messageObject)
+		worker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth});
+		worker.onmessage = message => setTimeout(() => confirm(...message.data), 1000);
 
-		// const compWorker = new WorkerBuilder(worker);
-		// const url = window.location.href;
-		// compWorker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth, digits, url });
-		// compWorker.onmessage = message => console.log(message.data);
-
-		const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
-		confirm(choiceNum1, choiceNum2);
+		// const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
+		// confirm(choiceNum1, choiceNum2);
 	}
 
 	const startNewGame = () => {
@@ -223,7 +232,7 @@ function App() {
 				computerRandomPlay();
 			}
 			else if (state.settings.playAgainst === 2) {
-				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, 6);
+				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, state.depth);
 			}
 		}
 	}, [state.currentPlayer1])
