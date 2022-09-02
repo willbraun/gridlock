@@ -1,10 +1,6 @@
-
-
-/* eslint-disable no-undef */
-/* eslint-disable no-restricted-globals */
-
-
 onmessage = (message) => {
+    
+    // Data
     const numbers = [
         1, 2, 3, 4, 5, 6, 
         7, 8, 9, 10, 12, 14, 
@@ -13,9 +9,12 @@ onmessage = (message) => {
         36, 40, 42, 45, 48, 49, 
         54, 56, 63, 64, 72, 81
     ];
+
+    const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     
     const pointValues = [0, 1, 3, 9, 1000];
 
+    // Helper functions
     const isSingleDigitInt = num => {
         return Number.isInteger(num) && num < 10;
     }
@@ -48,6 +47,7 @@ onmessage = (message) => {
         }
     }
     
+    // Evaluate position
     const getHorizontalQuads = numberArray => {
         const result = [];
         let position;
@@ -127,6 +127,7 @@ onmessage = (message) => {
         return winningQuads.map(quad => evaluateQuad(quad, humanSquares, compSquares)).reduce((a, b) => a + b, 0);
     }
 
+    // Build decision tree
     class Node {
         constructor({id, compTurn, alpha, beta, humanSquares, compSquares, num1, num2} = {}) {
             this.id = id;
@@ -221,111 +222,47 @@ onmessage = (message) => {
         const incrementNodeId = () => nodeId++;
     
         getChildNodes(tree, depth, getNodeId, incrementNodeId, winningQuads);
-        console.log(nodeId, 'nodes');
         return [tree, nodeId];
     }
     
+    // Make computer decision
     const getComputerChoiceNums = ({humanSquares, compSquares, num1, num2, gridLayout, depth}) => {
         const winningQuads = getAllQuads(gridLayout);
         const [tree, nodeId] = createTree(humanSquares, compSquares, num1, num2, winningQuads, depth);
-        
+
         const choice = tree.children.find(node => node.value === tree.value);
-        console.log(tree);
-        console.log(tree.children.map(node => node.value));
-        console.log(choice);
         return [choice.num1, choice.num2, nodeId];
     }
+    
+    const getComputerFirstChoice = (gridLayout) => {
+        const trees = [];
+        const winningQuads = getAllQuads(gridLayout);
+        const depth = 2;
+    
+        for (const i of digits) {
+            for (let j = i; j < 10; j++) {
+                const tree = createTree([], [], i, j, winningQuads, depth)[0];
+                trees.push(tree);
+            }
+        }
+    
+        const max = Math.max(...trees.map(rootNode => rootNode.value));
+        const choices = trees.filter(rootNode => rootNode.value === max);
+        const choice = choices[Math.floor(Math.random() * choices.length)];
+    
+        return [choice.num1, choice.num2];
+    }
 
-    postMessage(getComputerChoiceNums(message.data));
-    
-    // const getComputerFirstChoice = (gridLayout) => {
-    //     const trees = [];
-    //     const winningQuads = getAllQuads(gridLayout);
-    //     const depth = 2;
-    
-    //     for (const i of digits) {
-    //         for (let j = i; j < 10; j++) {
-    //             const tree = createTree([], [], i, j, winningQuads, depth);
-    //             trees.push(tree);
-    //         }
-    //     }
-    
-    //     const max = Math.max(...trees.map(rootNode => rootNode.value));
-    //     const choices = trees.filter(rootNode => rootNode.value === max);
-    //     const choice = choices[Math.floor(Math.random() * choices.length)];
-    
-    //     return [choice.num1, choice.num2];
-    // }
+    const computerMove = ({humanSquares, compSquares, num1, num2, gridLayout, depth}) => {
+        if (!num1 && !num2) {
+            return getComputerFirstChoice(gridLayout);
+        }
+        else {
+            return getComputerChoiceNums({humanSquares, compSquares, num1, num2, gridLayout, depth});
+        }
+    }
+
+    // Send decision back to main thread
+    postMessage(computerMove(message.data));
 
 }
-
-
-
-// onmessage = (message) => {
-//     // const data = JSON.parse(message.data.data);
-//     const helperFuncs = {};
-//     JSON.parse(message.data.helpers).forEach(helper => {
-//         let [args, ...func] = helper.func.split('=>');
-//         args = args.replace(/[() ]/gm, '').split(',');
-        
-//         helperFuncs[helper.name] = new Function(...args, func.join('=>'))
-//     })
-//     console.log(helperFuncs.randomDigit)
-//     // postMessage(helperFuncs.toString());
-// }
-
-// const worker = () => {
-//     if (typeof importScripts === 'function') {
-
-//         onmessage = (message) => {
-//             importScripts(message.data.url + '/helpers.js')
-
-//             postMessage(message.data);
-//         }
-
-//     }
-    
-//     // onmessage = function(message) {
-        
-
-
-//     //     // take in data and helper functions in message
-//     //     // move all decision tree code inside here 
-//     //     // return choices or just run confirm if I can pass that here
-//     //     postMessage(message.data);
-//     // }
-// }
-
-
-
-// default worker;
-
-        // if (typeof importScripts === 'function') {
-
-        //     // convert decision-tree and helpers files to blobs
-
-        //     // get URL from blob
-        //     // add URL to importScripts
-        //     // importScripts(`${path}/decision-tree.js`);
-        //     // importScripts('helpers.js');
-        // }
-
-// addEventListener('message', message => {
-//     const result = getComputerChoiceNums(message);
-
-//     postMessage(result);
-//   });
-
-// onmessage = function(message) {
-//         const result = getComputerChoiceNums(message);
-    
-//         postMessage(result);
-//     }
-
-// onmessage = function({humanSquares, compSquares, num1, num2, gridLayout, depth}) {
-    
-//     const choiceNums = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
-//     postMessage(choiceNums);
-// }
-
-

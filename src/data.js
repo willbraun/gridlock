@@ -1,3 +1,5 @@
+// Updates to numbers, digits, and pointValues (which should be rare), also need to be made in comp-worker.js for the same reason as helpers.js
+
 export const numbers = [
     1, 2, 3, 4, 5, 6, 
     7, 8, 9, 10, 12, 14, 

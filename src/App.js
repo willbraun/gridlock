@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Grid from './components/Grid';
 import './App.css';
@@ -6,17 +6,8 @@ import './styles/header.css';
 import FirstNumberSelection from './components/FirstNumberSelection';
 import NumberSelection from './components/NumberSelection';
 import GameOver from './components/GameOver';
-import { numbers, digits } from './data';
-import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads, randomDigit, evaluateBoard } from './helpers';
-import { getComputerFirstChoice, getComputerChoiceNums} from './decision-tree';
-import * as helpers from './helpers';
-import * as data from './data';
-// import WorkerBuilder from './worker-builder';
-// import worker from './comp-worker'
-
-// const dataString = JSON.stringify(data);
-// const helperObj = Object.entries(helpers).map(x => {return {name: x[0], func: x[1].toString()}});
-// const helperString = JSON.stringify(helperObj);
+import { numbers } from './data';
+import { isSingleDigitInt, getMultipliers, getComputerChoices, getAllQuads, randomDigit } from './helpers';
 
 
 function App() {
@@ -185,25 +176,16 @@ function App() {
 		setTimeout(() => confirm(num, mult), 2000);
 	}
 
-	const computerMinimaxFirstPlay = () => {
-		const [choiceNum1, choiceNum2] = getComputerFirstChoice(state.gridLayoutArray);
-		confirm(choiceNum1, choiceNum2);
-	}
-
 	const worker = new Worker(new URL('./comp-worker.js', import.meta.url));
 
-	const computerMinimaxPlay = (humanSquares, compSquares, num1, num2, gridLayout, depth) => {
+	const computerMinimaxPlay = (gridLayout, humanSquares, compSquares, num1, num2, depth) => {
 		worker.postMessage({humanSquares, compSquares, num1, num2, gridLayout, depth});
 		worker.onmessage = message => setTimeout(() => confirm(...message.data), 1000);
-
-		// const [choiceNum1, choiceNum2] = getComputerChoiceNums(humanSquares, compSquares, num1, num2, gridLayout, depth);
-		// confirm(choiceNum1, choiceNum2);
 	}
 
 	const startNewGame = () => {
 		if (isComputerPlayer) {
-			// const p1Start = getRandomBool();
-			const p1Start = true;
+			const p1Start = getRandomBool();
 			setState({...startGame, currentPlayer1: p1Start, isComputerRed: !p1Start})
 		}
 		else {
@@ -218,7 +200,7 @@ function App() {
 	useEffect(() => {
 		if (isComputerPlayer && isFirstTurn && state.isComputerRed) {
 			if (state.settings.playAgainst === 2) {
-				computerMinimaxFirstPlay();
+				computerMinimaxPlay(state.gridLayoutArray);
 			}
 			else {
 				computerRandomFirstPlay();
@@ -232,7 +214,7 @@ function App() {
 				computerRandomPlay();
 			}
 			else if (state.settings.playAgainst === 2) {
-				computerMinimaxPlay(state.p1Squares, state.p2Squares, state.num1, state.num2, state.gridLayoutArray, state.depth);
+				computerMinimaxPlay(state.gridLayoutArray, state.p1Squares, state.p2Squares, state.num1, state.num2, state.depth);
 			}
 		}
 	}, [state.currentPlayer1])

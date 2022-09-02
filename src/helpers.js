@@ -1,3 +1,5 @@
+// Updates to these functions must also be made in comp-worker.js. Need to figure out how to import them into the web worker in the future.
+
 import { numbers, digits, pointValues } from './data';
 
 export const isSingleDigitInt = num => {
