@@ -1,10 +1,10 @@
 # Overview
 
-Gridlock is a 2-player number game involving geometry and multiplication. A friend showed me this game on a whiteboard a few years ago, and I thought it would be fun to create a digital version. This game runs entirely in the browser so two people can play on one device. I designed this for mobile, but it will work on any size screen. 
+Gridlock is a 2-player number strategy game. A friend showed me this game on a whiteboard a few years ago, and I thought it would be fun to create a digital version. This game runs entirely in the browser so two people can play on one device. I designed this for mobile, but it will work on any size screen. 
 
 Play here - https://willbraun.github.io/gridlock/
 
-I am most proud of the "Computer - Hard" mode in settings. It is an AI that I created to play against you, and it is quite a challenge! I designed the AI based on chess engines, and it uses a minimax algorithm, alpha-beta pruning, and an evaluation function. Ask me about it if you're curious!
+I am most proud of the "Computer - Hard" mode in Settings. It is an AI that I created to play against you, and it is quite a challenge! I designed the AI based on chess engines, and it uses a minimax algorithm, alpha-beta pruning, and an evaluation function. Ask me about it if you're curious!
 
 # Rules
 
