@@ -4,6 +4,8 @@ Gridlock is a 2-player number game involving geometry and multiplication. A frie
 
 Play here - https://willbraun.github.io/gridlock/
 
+I am most proud of the "Computer - Hard" mode in settings. It is an AI that I created to play against you, and it is quite a challenge! I designed the AI based on chess engines, and it uses a minimax algorithm, alpha-beta pruning, and an evaluation function. Ask me about it if you're curious!
+
 # Rules
 
 - Gridlock starts with 6x6 grid of all numbers 1-9 multiplied together - 1 (1x1), 2 (1x2), up to 81 (9x9).
@@ -14,12 +16,16 @@ Play here - https://willbraun.github.io/gridlock/
 
 # Gameplay
 
-The border of the grid will show whose turn it is (red or blue). Red goes first. Players can select either the yellow factors or the yellow squares in the grid. Once they've made their selection, they can confirm and the turn will change to the other player. 
+The border of the grid will show whose turn it is (red or blue). Red goes first. Players can select either the yellow factors or the yellow squares in the grid. Once they've made their selection, they can confirm and the turn will change to the other player. The red player is randomly decided when playing vs the computer.
 
 Be mindful of what numbers you select for your opponent to use on their turn!
 
 # Settings
 
+- Play Against - choose your opponent
+    - Human (local) - Play a person using the same device
+    - Computer - Easy - Play against an easy computer player
+    - Computer - Hard - Play against the AI. Good luck! 
 - Grid Layout - how the numbers are displayed in the grid
     - Classic - in order from 1 to 81
     - Random - shuffled differently for a new challenge each game

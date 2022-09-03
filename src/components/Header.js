@@ -19,6 +19,10 @@ const Header = ({appState, setAppState, isComputerPlayer, isComputerTurn}) => {
             return '';
         }
     }
+
+    if (!appState.settings) {
+        return <div>Loading...</div>
+    }
     
     return (
         <>
