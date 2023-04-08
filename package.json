@@ -2,7 +2,7 @@
 	"name": "gridlock",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://willbraun.github.io/gridlock/",
+	"homepage": "https://gridlock.willbraun.dev",
 	"dependencies": {
 		"@koale/useworker": "^4.0.2",
 		"@testing-library/jest-dom": "^5.16.5",
