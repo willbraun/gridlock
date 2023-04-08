@@ -2,7 +2,7 @@
 
 Gridlock is a 2-player number strategy game. A friend showed me this game on a whiteboard a few years ago, and I thought it would be fun to create a digital version. The game runs entirely in the browser so it can be played offline once the page is loaded. I designed this for mobile, but it will work on any size screen.
 
-Play here - [https://gridlock.willbraun.dev](gridlock.willbraun.dev)
+Play here - [gridlock.willbraun.dev](https://gridlock.willbraun.dev)
 
 I am most proud of the "Computer - Hard" mode in Settings. It is an AI that I created to play against you, and it is quite a challenge! I modeled the AI after chess engines, and it uses a minimax algorithm, alpha-beta pruning, and an evaluation function. Ask me about it if you're curious!
 
