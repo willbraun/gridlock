@@ -35,4 +35,4 @@ Be mindful of what numbers you select for your opponent to use on their turn!
 
 # Technologies Used
 
-HTML, CSS, JavaScript, React, React Bootstrap, Github Pages
+HTML, CSS, JavaScript, React, React Bootstrap, Netlify
